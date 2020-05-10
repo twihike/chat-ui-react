@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Chat UI React</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+    <meta name="description" content="Chat UI React example" />
+    <script crossorigin="anonymous" src="https://unpkg.com/react@16/umd/react.development.js" ></script>
+    <script crossorigin="anonymous" src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" ></script>
+    <script crossorigin="anonymous" src="https://unpkg.com/@material-ui/core@4/umd/material-ui.development.js" ></script>
+    <script crossorigin="anonymous" src="https://unpkg.com/chat-ui-react@latest/dist/browser/chat-ui-react.umd.polyfill.js"></script>
+    <script crossorigin="anonymous" src="https://unpkg.com/@babel/standalone@7/babel.min.js" ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script type="text/babel">
+      const {
+        CssBaseline,
+        ThemeProvider,
+        createMuiTheme,
+        makeStyles,
+      } = MaterialUI;
+      const { ChatController, MuiChat } = ChatUiReact;
+
+      const theme = createMuiTheme({
+        palette: {
+          primary: {
+            main: '#007aff',
+          },
+        },
+      });
+
+      const useStyles = makeStyles(() => ({
+        root: {
+          backgroundColor: 'gray',
+        },
+        container: {
+          minHeight: '100vh',
+          height: '100vh',
+          maxWidth: '640px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        },
+      }));
+
+      function App() {
+        const classes = useStyles();
+        const [chatCtl] = React.useState(new ChatController());
+
+        React.useMemo(async () => {
+          await chatCtl.addMessage({
+            type: 'text',
+            content: `Please enter something.`,
+            self: false,
+          });
+          chatCtl.setActionRequest({ type: 'text', always: true }, (res) =>
+            chatCtl.addMessage({
+              type: 'text',
+              content: `You have entered:\n${res.value}`,
+              self: false,
+            }),
+          );
+        }, [chatCtl]);
+
+        return (
+          <div className={classes.root}>
+            <div className={classes.container}>
+              <MuiChat chatController={chatCtl} />
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.render(
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>,
+        document.querySelector('#root'),
+      );
+    </script>
+  </body>
+</html>
