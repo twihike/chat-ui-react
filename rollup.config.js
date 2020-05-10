@@ -146,30 +146,30 @@ const getAllConfig = () => {
       babelEnv: 'rollupUmdPolyfill',
       file: `dist/browser/${pkg.name}.umd.polyfill.min.js`,
     },
-    {
-      format: 'esm',
-      nodeEnv: 'development',
-      babelEnv: 'rollupEsm',
-      file: `dist/browser/${pkg.name}.esm.js`,
-    },
-    {
-      format: 'esm',
-      nodeEnv: 'production',
-      babelEnv: 'rollupEsm',
-      file: `dist/browser/${pkg.name}.esm.min.js`,
-    },
-    {
-      format: 'esm',
-      nodeEnv: 'development',
-      babelEnv: 'rollupEsmPolyfill',
-      file: `dist/browser/${pkg.name}.esm.polyfill.js`,
-    },
-    {
-      format: 'esm',
-      nodeEnv: 'production',
-      babelEnv: 'rollupEsmPolyfill',
-      file: `dist/browser/${pkg.name}.esm.polyfill.min.js`,
-    },
+    // {
+    //   format: 'esm',
+    //   nodeEnv: 'development',
+    //   babelEnv: 'rollupEsm',
+    //   file: `dist/browser/${pkg.name}.esm.js`,
+    // },
+    // {
+    //   format: 'esm',
+    //   nodeEnv: 'production',
+    //   babelEnv: 'rollupEsm',
+    //   file: `dist/browser/${pkg.name}.esm.min.js`,
+    // },
+    // {
+    //   format: 'esm',
+    //   nodeEnv: 'development',
+    //   babelEnv: 'rollupEsmPolyfill',
+    //   file: `dist/browser/${pkg.name}.esm.polyfill.js`,
+    // },
+    // {
+    //   format: 'esm',
+    //   nodeEnv: 'production',
+    //   babelEnv: 'rollupEsmPolyfill',
+    //   file: `dist/browser/${pkg.name}.esm.polyfill.min.js`,
+    // },
   ];
   return args.map((a) => getConfig(a));
 };
