@@ -33,7 +33,15 @@ const MuiAudioInput = ({
   const [audioRec] = React.useState(AudioMediaRecorder.getInstance());
   const [stopped, setStopped] = React.useState(true);
   const [audio, setAudio] = React.useState<Blob | undefined>();
-  const [error, setError] = React.useState<Error | undefined>();
+
+  const handleError = (error: Error): void => {
+    const value: AudioActionResponse = {
+      type: 'audio',
+      value: error.message,
+      error,
+    };
+    chatCtl.setActionResponse(actionRequest, value);
+  };
 
   const handleStart = async (): Promise<void> => {
     try {
@@ -41,7 +49,7 @@ const MuiAudioInput = ({
       await audioRec.startRecord();
       setStopped(false);
     } catch (e) {
-      setError(e);
+      handleError(e);
     }
   };
 
@@ -51,7 +59,7 @@ const MuiAudioInput = ({
       setAudio(a);
       setStopped(true);
     } catch (e) {
-      setError(e);
+      handleError(e);
     }
   };
 
@@ -63,17 +71,9 @@ const MuiAudioInput = ({
         audio,
       };
       chatCtl.setActionResponse(actionRequest, value);
+      setAudio(undefined);
     }
   };
-
-  if (error) {
-    const value: AudioActionResponse = {
-      type: 'audio',
-      value: error.message,
-      error,
-    };
-    chatCtl.setActionResponse(actionRequest, value);
-  }
 
   const sendButtonText = actionRequest.sendButtonText
     ? actionRequest.sendButtonText

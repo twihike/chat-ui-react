@@ -1,11 +1,27 @@
 import {
-  Action,
   ActionRequest,
   ActionResponse,
   ChatOption,
-  ChatState,
   Message,
+  OnActionChanged,
+  OnActionResponsed,
+  OnMessagesChanged,
 } from './chat-types';
+
+interface ChatState {
+  option: ChatOption;
+  messages: Message<unknown>[];
+  action: Action;
+  actionHistory: Action[];
+  onMessagesChanged: OnMessagesChanged[];
+  onActionChanged: OnActionChanged[];
+}
+
+interface Action {
+  request: ActionRequest;
+  responses: ActionResponse[];
+  onResnponsed: OnActionResponsed[];
+}
 
 export default class ChatController {
   private state: ChatState;
@@ -14,34 +30,26 @@ export default class ChatController {
     delay: 300,
   };
 
+  private emptyAction: Action = {
+    request: { type: 'empty' },
+    responses: [],
+    onResnponsed: [],
+  };
+
+  private defaultActionRequest = {
+    always: false,
+    addMessage: true,
+  };
+
   constructor(option?: ChatOption) {
-    let opt: ChatOption;
-    if (option) {
-      opt = { ...this.defaultOption, ...option };
-    } else {
-      opt = { ...this.defaultOption };
-    }
-
     this.state = {
-      option: opt,
+      option: { ...this.defaultOption, ...option },
       messages: [],
-      actions: [],
-      onUpdate: [],
+      action: this.emptyAction,
+      actionHistory: [],
+      onMessagesChanged: [],
+      onActionChanged: [],
     };
-  }
-
-  addUpdateHook(hook: (state: object) => void): void {
-    this.state.onUpdate.push(hook);
-  }
-
-  removeUpdateHook(hook: (state: object) => void): void {
-    const idx = this.state.onUpdate.indexOf(hook);
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    this.state.onUpdate[idx] = (): void => {};
-  }
-
-  private callUpdateHook(): void {
-    this.state.onUpdate.map((h) => h(this.state));
   }
 
   addMessage<C>(message: Message<C>): Promise<number> {
@@ -50,7 +58,7 @@ export default class ChatController {
         const len = this.state.messages.push(message);
         const idx = len - 1;
         this.state.messages[idx].createdAt = new Date();
-        this.callUpdateHook();
+        this.callOnMessagesChanged();
 
         resolve(idx);
       }, this.state.option.delay);
@@ -58,92 +66,134 @@ export default class ChatController {
   }
 
   updateMessage<C>(index: number, message: Message<C>): void {
-    this.state.messages[index] = message;
+    if (message !== this.state.messages[index]) {
+      const { createdAt } = this.state.messages[index];
+      this.state.messages[index] = message;
+      this.state.messages[index].createdAt = createdAt;
+    }
+
     this.state.messages[index].updatedAt = new Date();
-    this.callUpdateHook();
+    this.callOnMessagesChanged();
   }
 
   removeMessage(index: number): void {
     this.state.messages[index].deletedAt = new Date();
-    this.callUpdateHook();
+    this.callOnMessagesChanged();
   }
 
   getMessages(): Message<unknown>[] {
     return this.state.messages;
   }
 
+  private callOnMessagesChanged(): void {
+    this.state.onMessagesChanged.map((h) => h(this.state.messages));
+  }
+
+  addOnMessagesChanged(callback: OnMessagesChanged): void {
+    this.state.onMessagesChanged.push(callback);
+  }
+
+  removeOnMessagesChanged(callback: OnMessagesChanged): void {
+    const idx = this.state.onMessagesChanged.indexOf(callback);
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    this.state.onActionChanged[idx] = (): void => {};
+  }
+
   setActionRequest<T extends ActionRequest>(
     request: T,
+    onResponse?: OnActionResponsed,
   ): Promise<ActionResponse> {
     const action: Action = {
-      request,
+      request: { ...this.defaultActionRequest, ...request },
+      responses: [],
+      onResnponsed: [],
     };
-    this.state.actions.push(action);
-    this.callUpdateHook();
 
     // See setActionResponse method
     return new Promise((resolve, reject) => {
-      action.hook = (response: ActionResponse): void => {
-        action.response = response;
-        if (!response.error) {
-          resolve(response);
-        } else {
-          reject(response.error);
-        }
-      };
+      if (!request.always) {
+        const returnResponse = (response: ActionResponse): void => {
+          if (!response.error) {
+            resolve(response);
+          } else {
+            reject(response.error);
+          }
+        };
+        action.onResnponsed.push(returnResponse);
+      }
+
+      if (onResponse) {
+        action.onResnponsed.push(onResponse);
+      }
+
+      this.state.action = action;
+      this.state.actionHistory.push(action);
+      this.callOnActionChanged(action.request);
+
+      if (request.always) {
+        resolve({ type: 'text', value: 'dummy' });
+      }
     });
   }
 
+  cancelActionRequest(): void {
+    this.state.action = this.emptyAction;
+    this.callOnActionChanged(this.emptyAction.request);
+  }
+
   getActionRequest(): ActionRequest | undefined {
-    if (this.state.actions.length === 0) {
+    const { request, responses } = this.state.action;
+    if (!request.always && responses.length > 0) {
       return undefined;
     }
 
-    const act = this.state.actions.slice(-1)[0];
-    if (act.response) {
-      return undefined;
-    }
-
-    return act.request;
+    return request;
   }
 
   async setActionResponse(
     request: ActionRequest,
     response: ActionResponse,
   ): Promise<void> {
-    const actions = this.state.actions.filter((v) => v.request === request);
-    if (actions.length !== 1) {
-      throw new Error('Action not found.');
+    const { request: origReq, responses, onResnponsed } = this.state.action;
+    if (request !== origReq) {
+      throw new Error('Invalid action.');
+    }
+    if (!request.always && onResnponsed.length === 0) {
+      throw new Error('onResponsed is not set.');
     }
 
-    const action = actions[0];
-    if (action.response) {
-      return;
-    }
+    responses.push(response);
+    this.callOnActionChanged(request, response);
 
-    action.response = response;
-    this.callUpdateHook();
-
-    if (request.addMessage === undefined || request.addMessage === true) {
+    if (request.addMessage) {
       await this.addMessage({
         type: 'text',
         content: response.value,
-        isSelf: true,
+        self: true,
       });
     }
 
-    if (!action.hook) {
-      throw new Error('Action hook is not set.');
-    }
-    action.hook(response);
+    onResnponsed.map((h) => h(response));
   }
 
-  getActionResponse(request: ActionRequest): ActionResponse | undefined {
-    const action = this.state.actions.filter((v) => v.request === request);
-    if (action.length !== 1) {
-      return undefined;
-    }
+  getActionResponses(): ActionResponse[] {
+    return this.state.action.responses;
+  }
 
-    return action[0].response;
+  private callOnActionChanged(
+    request: ActionRequest,
+    response?: ActionResponse,
+  ): void {
+    this.state.onActionChanged.map((h) => h(request, response));
+  }
+
+  addOnActionChanged(callback: OnActionChanged): void {
+    this.state.onActionChanged.push(callback);
+  }
+
+  removeOnActionChanged(callback: OnActionChanged): void {
+    const idx = this.state.onActionChanged.indexOf(callback);
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    this.state.onActionChanged[idx] = (): void => {};
   }
 }

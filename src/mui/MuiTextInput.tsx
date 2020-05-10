@@ -31,14 +31,13 @@ const MuiTextInput = ({
 }): React.ReactElement => {
   const classes = useStyles();
   const chatCtl = chatController;
-  const initValue = actionRequest.defaultValue
-    ? actionRequest.defaultValue
-    : '';
-  const [value, setValue] = React.useState(initValue);
+  const [value, setValue] = React.useState(actionRequest.defaultValue);
 
   const setResponse = (): void => {
-    const res: TextActionResponse = { type: 'text', value };
-    chatCtl.setActionResponse(actionRequest, res);
+    if (value) {
+      const res: TextActionResponse = { type: 'text', value };
+      chatCtl.setActionResponse(actionRequest, res);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
@@ -46,8 +45,12 @@ const MuiTextInput = ({
       return;
     }
 
-    if (e.key === 'Enter' && e.shiftKey && value) {
-      setResponse();
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (value) {
+        setResponse();
+        setValue('');
+      }
     }
   };
 
@@ -58,7 +61,7 @@ const MuiTextInput = ({
   return (
     <div className={classes.container}>
       <TextField
-        type="text"
+        placeholder={actionRequest.placeholder}
         value={value}
         onChange={(e): void => setValue(e.target.value)}
         autoFocus

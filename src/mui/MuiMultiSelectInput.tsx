@@ -35,7 +35,7 @@ const MuiMultiSelectInput = ({
   const [values, setValues] = React.useState<string[]>([]);
 
   const handleSelect = (value: string): void => {
-    if (values.indexOf(value) === -1) {
+    if (values.find((v) => v === value) === undefined) {
       setValues([...values, value]);
     } else {
       setValues(values.filter((v) => v !== value));
@@ -43,12 +43,17 @@ const MuiMultiSelectInput = ({
   };
 
   const setResponse = (): void => {
+    const options = actionRequest.options.filter(
+      (o) => values.indexOf(o.value) !== -1,
+    );
+
     const res: MultiSelectActionResponse = {
       type: 'multi-select',
-      value: values.toString(),
-      values,
+      value: options.map((o) => o.text).toString(),
+      options,
     };
     chatCtl.setActionResponse(actionRequest, res);
+    setValues([]);
   };
 
   const sendButtonText = actionRequest.sendButtonText

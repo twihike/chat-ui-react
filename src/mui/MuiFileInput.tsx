@@ -57,16 +57,16 @@ const MuiFileInput = ({
 
   const handleFileChange = (fileList: FileList | null): void => {
     // Convert FileList to File[]
-    const f: File[] = [];
+    const fileArray: File[] = [];
     if (fileList) {
       for (let i = 0; i < fileList.length; i += 1) {
         const file = fileList.item(i);
         if (file) {
-          f.push(file);
+          fileArray.push(file);
         }
       }
     }
-    setFiles(f);
+    setFiles(fileArray);
   };
 
   const setResponse = (): void => {
@@ -85,21 +85,18 @@ const MuiFileInput = ({
     <div className={classes.container}>
       <List>
         {files.map((f) => (
-          <>
+          <div key={`${f.name}-${f.size}`}>
             <Divider />
-            <ListItem
-              key={f.name}
-              style={{ flex: '1 1 100%', maxWidth: '100%' }}
-            >
+            <ListItem key={f.name}>
               <ListItemIcon>
                 <AttachFileIcon />
               </ListItemIcon>
-              <Typography style={{ overflowWrap: 'break-word' }}>
+              <Typography style={{ overflowWrap: 'break-word', minWidth: 0 }}>
                 {f.name}
               </Typography>
               {/* <ListItemText primary={f.name} /> */}
             </ListItem>
-          </>
+          </div>
         ))}
       </List>
       <div className={classes.buttons}>
