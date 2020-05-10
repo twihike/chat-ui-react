@@ -30,7 +30,15 @@ const MuiSelectInput = ({
   const chatCtl = chatController;
 
   const setResponse = (value: string): void => {
-    const res: SelectActionResponse = { type: 'select', value };
+    const option = actionRequest.options.find((o) => o.value === value);
+    if (!option) {
+      throw new Error(`Unknown value: ${value}`);
+    }
+    const res: SelectActionResponse = {
+      type: 'select',
+      value: option.text,
+      option,
+    };
     chatCtl.setActionResponse(actionRequest, res);
   };
 

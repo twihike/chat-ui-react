@@ -1,10 +1,3 @@
-export interface ChatState {
-  option: ChatOption;
-  messages: Message<unknown>[];
-  actions: Action[];
-  onUpdate: ((state: object) => void)[];
-}
-
 export interface ChatOption {
   delay?: number;
 }
@@ -12,30 +5,34 @@ export interface ChatOption {
 export interface Message<C> {
   type: string;
   content: C;
-  isSelf: boolean;
-  isTyping?: boolean;
+  self: boolean;
   username?: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }
 
-export interface Action {
-  request: ActionRequest;
-  response?: ActionResponse;
-  hook?: ActionResponseHook;
+export interface TextMessage extends Message<string> {
+  type: 'text';
+  content: string;
+}
+
+export interface JSXMessage extends Message<JSX.Element> {
+  type: 'jsx';
+  content: JSX.Element;
 }
 
 export interface ActionRequest {
   type: string;
+  always?: boolean;
   addMessage?: boolean;
   response?: ActionResponse;
 }
 
 export interface TextActionRequest extends ActionRequest {
   type: 'text';
-  placeholder?: string;
   defaultValue?: string;
+  placeholder?: string;
   sendButtonText?: string;
   response?: TextActionResponse;
 }
@@ -61,10 +58,10 @@ export interface MultiSelectActionRequest extends ActionRequest {
 
 export interface FileActionRequest extends ActionRequest {
   type: 'file';
-  sendButtonText?: string;
   accept?: string;
   multiple?: boolean;
   response?: FileActionResponse;
+  sendButtonText?: string;
 }
 
 export interface AudioActionRequest extends ActionRequest {
@@ -85,11 +82,18 @@ export interface TextActionResponse extends ActionResponse {
 
 export interface SelectActionResponse extends ActionResponse {
   type: 'select';
+  option: {
+    value: string;
+    text: string;
+  };
 }
 
 export interface MultiSelectActionResponse extends ActionResponse {
   type: 'multi-select';
-  values: string[];
+  options: {
+    value: string;
+    text: string;
+  }[];
 }
 
 export interface FileActionResponse extends ActionResponse {
@@ -102,6 +106,14 @@ export interface AudioActionResponse extends ActionResponse {
   audio?: Blob;
 }
 
-export interface ActionResponseHook {
+export interface OnMessagesChanged {
+  (messages: Message<unknown>[]): void;
+}
+
+export interface OnActionChanged {
+  (request: ActionRequest, response?: ActionResponse): void;
+}
+
+export interface OnActionResponsed {
   (response: ActionResponse): void;
 }

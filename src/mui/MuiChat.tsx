@@ -5,7 +5,6 @@ import ChatController from '../chat-controller';
 import {
   AudioActionRequest,
   FileActionRequest,
-  Message,
   MultiSelectActionRequest,
   SelectActionRequest,
   TextActionRequest,
@@ -13,7 +12,7 @@ import {
 
 import MuiAudioInput from './MuiAudioInput';
 import MuiFileInput from './MuiFileInput';
-import MuiMessageBody from './MuiMessage';
+import MuiMessage from './MuiMessage';
 import MuiMultiSelectInput from './MuiMultiSelectInput';
 import MuiSelectInput from './MuiSelectInput';
 import MuiTextInput from './MuiTextInput';
@@ -60,30 +59,48 @@ const MuiChat = ({
 }>): React.ReactElement => {
   const classes = useStyles();
   const chatCtl = chatController;
-  const [messages, setMessages] = React.useState<Message<unknown>[]>(
-    chatCtl.getMessages(),
-  );
+  const [messages, setMessages] = React.useState(chatCtl.getMessages());
   const [actReq, setActReq] = React.useState(chatCtl.getActionRequest());
 
   const msgRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
-    function handleChatUpdate(): void {
-      setMessages([...chatCtl.getMessages()]);
-      setActReq(chatCtl.getActionRequest());
+    function scroll(): void {
       if (msgRef.current) {
         msgRef.current.scrollTop = msgRef.current.scrollHeight;
         // msgRef.current.scrollIntoView(true);
       }
     }
-    chatCtl.addUpdateHook(handleChatUpdate);
+    function handleMassagesChanged(): void {
+      setMessages([...chatCtl.getMessages()]);
+      scroll();
+    }
+    function handleActionChanged(): void {
+      setActReq(chatCtl.getActionRequest());
+      scroll();
+    }
+    chatCtl.addOnMessagesChanged(handleMassagesChanged);
+    chatCtl.addOnActionChanged(handleActionChanged);
   }, [chatCtl]);
+
+  const unknownMsg = {
+    type: 'text',
+    content: 'Unknown message.',
+    self: false,
+  };
 
   return (
     <div className={classes.container}>
       <div className={classes.messages} ref={msgRef}>
-        {messages.map((msg) => {
-          return <MuiMessageBody key={messages.indexOf(msg)} message={msg} />;
-        })}
+        {messages.map(
+          (msg): React.ReactElement => {
+            if (msg.type === 'text' || msg.type === 'jsx') {
+              return <MuiMessage key={messages.indexOf(msg)} message={msg} />;
+            }
+            return (
+              <MuiMessage key={messages.indexOf(msg)} message={unknownMsg} />
+            );
+          },
+        )}
       </div>
       <div className={classes.action}>
         {actReq && actReq.type === 'text' && (

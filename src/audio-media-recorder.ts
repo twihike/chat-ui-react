@@ -5,10 +5,6 @@ import AudioRecorder from 'audio-recorder-polyfill';
 export default class AudioMediaRecorder {
   private static instance: AudioMediaRecorder;
 
-  private md?: MediaRecorder;
-
-  private recordChunks: Blob[];
-
   static getInstance(): AudioMediaRecorder {
     if (!this.instance) {
       this.instance = new AudioMediaRecorder();
@@ -16,6 +12,10 @@ export default class AudioMediaRecorder {
 
     return this.instance;
   }
+
+  private md?: MediaRecorder;
+
+  private recordChunks: Blob[];
 
   constructor() {
     if (!window.MediaRecorder) {
@@ -35,25 +35,32 @@ export default class AudioMediaRecorder {
     });
     this.md = new MediaRecorder(stream);
     this.recordChunks = [];
+
     return this;
   }
 
   async startRecord(): Promise<void> {
-    if (!this.md) {
-      throw new Error('Must be initialized.');
-    }
-
-    this.recordChunks = [];
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    this.md.addEventListener('dataavailable', (e: BlobEvent) => {
-      if (e.data.size > 0) {
-        this.recordChunks.push(e.data);
+    return new Promise((resolve) => {
+      if (!this.md) {
+        throw new Error('Must be initialized.');
       }
-    });
 
-    this.md.start();
+      this.recordChunks = [];
+
+      this.md.addEventListener('start', () => {
+        resolve();
+      });
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      this.md.addEventListener('dataavailable', (e: BlobEvent) => {
+        if (e.data.size > 0) {
+          this.recordChunks.push(e.data);
+        }
+      });
+
+      this.md.start();
+    });
   }
 
   async stopRecord(): Promise<Blob> {
