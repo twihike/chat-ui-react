@@ -1,6 +1,6 @@
 {
   "name": "chat-ui-react",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "React component for conversational UI.",
   "license": "MIT",
   "author": "tkhiking",
