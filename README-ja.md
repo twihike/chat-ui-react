@@ -1,8 +1,6 @@
 # chat-ui-react
 
-[![npm version](https://badge.fury.io/js/chat-ui-react.svg)](https://badge.fury.io/js/chat-ui-react)
-![license](https://img.shields.io/github/license/tkhiking/chat-ui-react)
-![release](https://github.com/tkhiking/chat-ui-react/workflows/release/badge.svg)
+[![npm version](https://badge.fury.io/js/chat-ui-react.svg)](https://badge.fury.io/js/chat-ui-react) [![release](https://github.com/tkhiking/chat-ui-react/workflows/release/badge.svg)](https://github.com/tkhiking/chat-ui-react/actions) [![license](https://img.shields.io/github/license/tkhiking/chat-ui-react)](LICENSE)
 
 chat-ui-reactは会話型のWebUIを構築するためのnpmパッケージです。
 このパッケージが提供するものは次の通りです。
@@ -18,6 +16,10 @@ chat-ui-reactは会話型のWebUIを構築するためのnpmパッケージで�
 Material-UI以外のコンポーネントを望むなら、オリジナルのコンポーネントに差し替えて利用することもできます。
 
 ![demo](https://raw.githubusercontent.com/tkhiking/chat-ui-react/assets/chat-ui-react-demo.gif)
+
+## デモ
+
+[デモサイト](https://chat-ui-react-demo.netlify.app)
 
 ## インストール
 
@@ -76,7 +78,7 @@ function App(): React.ReactElement {
     await chatCtl.addMessage({
       type: 'text',
       content: `Hello, What's your name.`,
-      isSelf: false,
+      self: false,
     });
     const name = await chatCtl.setActionRequest({ type: 'text' });
   }, [chatCtl]);
