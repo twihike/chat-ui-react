@@ -1,8 +1,6 @@
 # chat-ui-react
 
-[![npm version](https://badge.fury.io/js/chat-ui-react.svg)](https://badge.fury.io/js/chat-ui-react)
-![license](https://img.shields.io/github/license/twihike/chat-ui-react)
-![release](https://github.com/twihike/chat-ui-react/workflows/release/badge.svg)
+[![npm version](https://badge.fury.io/js/chat-ui-react.svg)](https://badge.fury.io/js/chat-ui-react) [![release](https://github.com/twihike/chat-ui-react/workflows/release/badge.svg)](https://github.com/twihike/chat-ui-react/actions) [![license](https://img.shields.io/github/license/twihike/chat-ui-react)](LICENSE)
 
 chat-ui-react is an npm package for building conversational web UIs.
 This package offers the following:
@@ -18,6 +16,10 @@ Currently, the component uses React's UI framework Material-UI.
 If you want a component other than Material-UI, you can replace it with the original component and use it.
 
 ![demo](https://raw.githubusercontent.com/twihike/chat-ui-react/assets/chat-ui-react-demo.gif)
+
+## Demo
+
+[Demo site](https://chat-ui-react-demo.netlify.app)
 
 ## Installation
 
@@ -74,7 +76,7 @@ function App(): React.ReactElement {
     await chatCtl.addMessage({
       type: 'text',
       content: `Hello, What's your name.`,
-      isSelf: false,
+      self: false,
     });
     const name = await chatCtl.setActionRequest({ type: 'text' });
   }, [chatCtl]);
