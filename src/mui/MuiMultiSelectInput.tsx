@@ -2,7 +2,7 @@ import { Button, Theme, makeStyles } from '@material-ui/core';
 import { Send as SendIcon } from '@material-ui/icons';
 import React from 'react';
 
-import ChatController from '../chat-controller';
+import { ChatController } from '../chat-controller';
 import {
   MultiSelectActionRequest,
   MultiSelectActionResponse,
@@ -23,28 +23,31 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const MuiMultiSelectInput = ({
+export function MuiMultiSelectInput({
   chatController,
   actionRequest,
 }: {
   chatController: ChatController;
   actionRequest: MultiSelectActionRequest;
-}): React.ReactElement => {
+}): React.ReactElement {
   const classes = useStyles();
   const chatCtl = chatController;
   const [values, setValues] = React.useState<string[]>([]);
 
-  const handleSelect = (value: string): void => {
-    if (values.find((v) => v === value) === undefined) {
-      setValues([...values, value]);
-    } else {
-      setValues(values.filter((v) => v !== value));
-    }
-  };
+  const handleSelect = React.useCallback(
+    (value: string): void => {
+      if (values.find((v) => v === value) === undefined) {
+        setValues([...values, value]);
+      } else {
+        setValues(values.filter((v) => v !== value));
+      }
+    },
+    [values],
+  );
 
-  const setResponse = (): void => {
-    const options = actionRequest.options.filter(
-      (o) => values.indexOf(o.value) !== -1,
+  const setResponse = React.useCallback((): void => {
+    const options = actionRequest.options.filter((o) =>
+      values.includes(o.value),
     );
 
     const res: MultiSelectActionResponse = {
@@ -54,7 +57,7 @@ const MuiMultiSelectInput = ({
     };
     chatCtl.setActionResponse(actionRequest, res);
     setValues([]);
-  };
+  }, [actionRequest, chatCtl, values]);
 
   const sendButtonText = actionRequest.sendButtonText
     ? actionRequest.sendButtonText
@@ -68,7 +71,7 @@ const MuiMultiSelectInput = ({
           type="button"
           value={o.value}
           onClick={(e): void => handleSelect(e.currentTarget.value)}
-          variant={values.indexOf(o.value) === -1 ? 'outlined' : 'contained'}
+          variant={!values.includes(o.value) ? 'outlined' : 'contained'}
           color="primary"
         >
           {o.text}
@@ -86,6 +89,4 @@ const MuiMultiSelectInput = ({
       </Button>
     </div>
   );
-};
-
-export default MuiMultiSelectInput;
+}

@@ -3,11 +3,11 @@ import React from 'react';
 
 import { Message } from '../chat-types';
 
-const MuiMessage = ({
+export function MuiMessage({
   message,
 }: {
   message: Message<unknown>;
-}): React.ReactElement => {
+}): React.ReactElement {
   if (message.deletedAt) {
     return <div />;
   }
@@ -41,12 +41,11 @@ const MuiMessage = ({
             variant="body1"
             style={{ overflowWrap: 'break-word', whiteSpace: 'pre-wrap' }}
           >
+            {/* eslint-disable-next-line @typescript-eslint/ban-types */}
             {message.content as object}
           </Typography>
         </Box>
       </Box>
     </Grow>
   );
-};
-
-export default MuiMessage;
+}

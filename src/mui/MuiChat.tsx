@@ -1,7 +1,7 @@
 import { Theme, makeStyles } from '@material-ui/core';
 import React from 'react';
 
-import ChatController from '../chat-controller';
+import { ChatController } from '../chat-controller';
 import {
   AudioActionRequest,
   FileActionRequest,
@@ -10,12 +10,12 @@ import {
   TextActionRequest,
 } from '../chat-types';
 
-import MuiAudioInput from './MuiAudioInput';
-import MuiFileInput from './MuiFileInput';
-import MuiMessage from './MuiMessage';
-import MuiMultiSelectInput from './MuiMultiSelectInput';
-import MuiSelectInput from './MuiSelectInput';
-import MuiTextInput from './MuiTextInput';
+import { MuiAudioInput } from './MuiAudioInput';
+import { MuiFileInput } from './MuiFileInput';
+import { MuiMessage } from './MuiMessage';
+import { MuiMultiSelectInput } from './MuiMultiSelectInput';
+import { MuiSelectInput } from './MuiSelectInput';
+import { MuiTextInput } from './MuiTextInput';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -52,11 +52,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const MuiChat = ({
+export function MuiChat({
   chatController,
 }: React.PropsWithChildren<{
   chatController: ChatController;
-}>): React.ReactElement => {
+}>): React.ReactElement {
   const classes = useStyles();
   const chatCtl = chatController;
   const [messages, setMessages] = React.useState(chatCtl.getMessages());
@@ -136,6 +136,4 @@ const MuiChat = ({
       </div>
     </div>
   );
-};
-
-export default MuiChat;
+}

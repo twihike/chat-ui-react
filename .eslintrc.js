@@ -1,6 +1,4 @@
 module.exports = {
   root: true,
-  extends: [
-    '@twihike',
-  ],
+  extends: ['@twihike'],
 };

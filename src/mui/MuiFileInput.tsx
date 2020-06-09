@@ -15,7 +15,7 @@ import {
 } from '@material-ui/icons';
 import React from 'react';
 
-import ChatController from '../chat-controller';
+import { ChatController } from '../chat-controller';
 import { FileActionRequest, FileActionResponse } from '../chat-types';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -44,38 +44,41 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const MuiFileInput = ({
+export function MuiFileInput({
   chatController,
   actionRequest,
 }: {
   chatController: ChatController;
   actionRequest: FileActionRequest;
-}): React.ReactElement => {
+}): React.ReactElement {
   const classes = useStyles();
   const chatCtl = chatController;
   const [files, setFiles] = React.useState<File[]>([]);
 
-  const handleFileChange = (fileList: FileList | null): void => {
-    // Convert FileList to File[]
-    const fileArray: File[] = [];
-    if (fileList) {
-      for (let i = 0; i < fileList.length; i += 1) {
-        const file = fileList.item(i);
-        if (file) {
-          fileArray.push(file);
+  const handleFileChange = React.useCallback(
+    (fileList: FileList | null): void => {
+      // Convert FileList to File[]
+      const fileArray: File[] = [];
+      if (fileList) {
+        for (let i = 0; i < fileList.length; i += 1) {
+          const file = fileList.item(i);
+          if (file) {
+            fileArray.push(file);
+          }
         }
       }
-    }
-    setFiles(fileArray);
-  };
+      setFiles(fileArray);
+    },
+    [],
+  );
 
-  const setResponse = (): void => {
+  const setResponse = React.useCallback((): void => {
     if (files.length > 0) {
       const value = files.map((f) => f.name).toString();
       const res: FileActionResponse = { type: 'file', value, files };
       chatCtl.setActionResponse(actionRequest, res);
     }
-  };
+  }, [actionRequest, chatCtl, files]);
 
   const sendButtonText = actionRequest.sendButtonText
     ? actionRequest.sendButtonText
@@ -129,6 +132,4 @@ const MuiFileInput = ({
       </div>
     </div>
   );
-};
-
-export default MuiFileInput;
+}
