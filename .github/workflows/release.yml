@@ -32,9 +32,9 @@ jobs:
         working-directory: examples/echo-bot
       - run: yarn build
         working-directory: examples/echo-bot
-      - run: yarn global add netlify-cli
-      - run: netlify --telemetry-disable
-      - run: netlify deploy --dir=build
+      - run: yarn add -D netlify-cli
+      - run: yarn netlify --telemetry-disable
+      - run: yarn netlify deploy --dir=build
         working-directory: examples/echo-bot
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
