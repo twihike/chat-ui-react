@@ -1,8 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import AudioRecorder from 'audio-recorder-polyfill';
 
-export default class AudioMediaRecorder {
+export class AudioMediaRecorder {
   private static instance: AudioMediaRecorder;
 
   static getInstance(): AudioMediaRecorder {
@@ -51,7 +51,7 @@ export default class AudioMediaRecorder {
         resolve();
       });
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.md.addEventListener('dataavailable', (e: BlobEvent) => {
         if (e.data.size > 0) {

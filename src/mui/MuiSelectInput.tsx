@@ -1,7 +1,7 @@
 import { Button, Theme, makeStyles } from '@material-ui/core';
 import React from 'react';
 
-import ChatController from '../chat-controller';
+import { ChatController } from '../chat-controller';
 import { SelectActionRequest, SelectActionResponse } from '../chat-types';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -19,28 +19,31 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const MuiSelectInput = ({
+export function MuiSelectInput({
   chatController,
   actionRequest,
 }: {
   chatController: ChatController;
   actionRequest: SelectActionRequest;
-}): React.ReactElement => {
+}): React.ReactElement {
   const classes = useStyles();
   const chatCtl = chatController;
 
-  const setResponse = (value: string): void => {
-    const option = actionRequest.options.find((o) => o.value === value);
-    if (!option) {
-      throw new Error(`Unknown value: ${value}`);
-    }
-    const res: SelectActionResponse = {
-      type: 'select',
-      value: option.text,
-      option,
-    };
-    chatCtl.setActionResponse(actionRequest, res);
-  };
+  const setResponse = React.useCallback(
+    (value: string): void => {
+      const option = actionRequest.options.find((o) => o.value === value);
+      if (!option) {
+        throw new Error(`Unknown value: ${value}`);
+      }
+      const res: SelectActionResponse = {
+        type: 'select',
+        value: option.text,
+        option,
+      };
+      chatCtl.setActionResponse(actionRequest, res);
+    },
+    [actionRequest, chatCtl],
+  );
 
   return (
     <div className={classes.container}>
@@ -58,6 +61,4 @@ const MuiSelectInput = ({
       ))}
     </div>
   );
-};
-
-export default MuiSelectInput;
+}

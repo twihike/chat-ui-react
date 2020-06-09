@@ -23,7 +23,7 @@ interface Action {
   onResnponsed: OnActionResponsed[];
 }
 
-export default class ChatController {
+export class ChatController {
   private state: ChatState;
 
   private defaultOption: ChatOption = {
