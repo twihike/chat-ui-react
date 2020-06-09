@@ -33,7 +33,9 @@ jobs:
       - run: yarn build
         working-directory: examples/echo-bot
       - run: yarn add -D netlify-cli
+        working-directory: examples/echo-bot
       - run: yarn netlify --telemetry-disable
+        working-directory: examples/echo-bot
       - run: yarn netlify deploy --dir=build
         working-directory: examples/echo-bot
         env:
