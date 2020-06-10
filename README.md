@@ -1,6 +1,6 @@
 # chat-ui-react
 
-[![npm version](https://badge.fury.io/js/chat-ui-react.svg)](https://badge.fury.io/js/chat-ui-react) [![release](https://github.com/twihike/chat-ui-react/workflows/release/badge.svg)](https://github.com/twihike/chat-ui-react/actions) [![license](https://img.shields.io/github/license/twihike/chat-ui-react)](LICENSE)
+[![npm version](https://badge.fury.io/js/chat-ui-react.svg)](https://badge.fury.io/js/chat-ui-react) [![ci](https://github.com/twihike/chat-ui-react/workflows/ci/badge.svg)](https://github.com/twihike/chat-ui-react/actions) [![release](https://github.com/twihike/chat-ui-react/workflows/release/badge.svg)](https://github.com/twihike/chat-ui-react/actions) [![license](https://img.shields.io/github/license/twihike/chat-ui-react)](LICENSE)
 
 chat-ui-react is an npm package for building conversational web UIs.
 This package offers the following:

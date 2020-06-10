@@ -1,0 +1,27 @@
+name: release
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  demo-site:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: yarn install --frozen-lockfile
+        working-directory: examples/echo-bot
+      - run: yarn build
+        working-directory: examples/echo-bot
+      - run: yarn add -D netlify-cli
+        working-directory: examples/echo-bot
+      - run: yarn netlify --telemetry-disable
+        working-directory: examples/echo-bot
+      - run: yarn netlify deploy --dir=build
+        working-directory: examples/echo-bot
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
