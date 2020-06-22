@@ -21,25 +21,6 @@ const baseGlobals = {
   '@material-ui/core/SvgIcon': 'MaterialUI.SvgIcon',
 };
 
-const namedExports = {
-  'prop-types': [
-    'elementType',
-    'bool',
-    'func',
-    'object',
-    'oneOfType',
-    'element',
-  ],
-  'react-is': [
-    'ForwardRef',
-    'isFragment',
-    'isLazy',
-    'isMemo',
-    'Memo',
-    'isValidElementType',
-  ],
-};
-
 const banner = `/*!
  * ${pkg.name} v${pkg.version}
  * 
@@ -69,10 +50,7 @@ const getBaseConfig = ({ nodeEnv, babelEnv }) => ({
       babelHelpers: 'runtime',
     }),
     // Convert cjs to esm
-    commonjs({
-      include: /node_modules/,
-      namedExports,
-    }),
+    commonjs({ include: /node_modules/ }),
     replace({ 'process.env.NODE_ENV': JSON.stringify(nodeEnv) }),
     license({ format: 'jsdoc' }),
     filesize(),
