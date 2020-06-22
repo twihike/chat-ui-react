@@ -933,7 +933,15 @@
     "@babel/helper-plugin-utils" "^7.8.3"
     "@babel/plugin-transform-typescript" "^7.9.0"
 
-"@babel/runtime-corejs3@^7.7.4", "@babel/runtime-corejs3@^7.9.2":
+"@babel/runtime-corejs3@^7.10.3":
+  version "7.10.3"
+  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.10.3.tgz#931ed6941d3954924a7aa967ee440e60c507b91a"
+  integrity sha512-HA7RPj5xvJxQl429r5Cxr2trJwOfPjKiqhCXcdQPSqO2G0RHPZpXu4fkYmBaTKCp2c/jRaMK9GB/lN+7zvvFPw==
+  dependencies:
+    core-js-pure "^3.0.0"
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime-corejs3@^7.7.4":
   version "7.9.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.9.6.tgz#67aded13fffbbc2cb93247388cf84d77a4be9a71"
   integrity sha512-6toWAfaALQjt3KMZQc6fABqZwUDDuWzz+cAfPhqyEnzxvdWOAkjwPNxgF8xlmo7OWLsSjaKjsskpKHRLaMArOA==
@@ -2832,12 +2840,12 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
-chat-ui-react@0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/chat-ui-react/-/chat-ui-react-0.2.4.tgz#c4c9e961975c9aa9092f4e883b7d2fe82151524c"
-  integrity sha512-ld2YLqZpYEHpdd2hIA+4GtlcYwPdTCh4rzw8s2meuLra7YGsRnh687kTgbEzlHkuUZgsfS88kvwsBEdo7qwNGw==
+chat-ui-react@0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/chat-ui-react/-/chat-ui-react-0.2.5.tgz#e21ab59fa9f48d0d14b61fd506bcee307e720386"
+  integrity sha512-B/WWTT3+h1zqiggReBIkIuVAyxx6B6h5+zOM1PQFEg11HbEcHWDTdsKDU3Ubogbu+HUdjzhmPNFu6Rix+jrInQ==
   dependencies:
-    "@babel/runtime-corejs3" "^7.9.2"
+    "@babel/runtime-corejs3" "^7.10.3"
     "@material-ui/icons" "^4.9.1"
     audio-recorder-polyfill "^0.3.6"
 

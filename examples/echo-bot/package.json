@@ -11,7 +11,7 @@
     "@types/node": "14.0.13",
     "@types/react": "16.9.38",
     "@types/react-dom": "16.9.8",
-    "chat-ui-react": "0.2.4",
+    "chat-ui-react": "0.2.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "3.4.1",
