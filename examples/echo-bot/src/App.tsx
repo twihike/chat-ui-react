@@ -33,7 +33,27 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const echo = async (chatCtl: ChatController): Promise<void> => {
+export function App(): React.ReactElement {
+  const classes = useStyles();
+  const [chatCtl] = React.useState(new ChatController());
+
+  React.useMemo(() => {
+    echo(chatCtl);
+  }, [chatCtl]);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div className={classes.root}>
+        <div className={classes.container}>
+          <MuiChat chatController={chatCtl} />
+        </div>
+      </div>
+    </ThemeProvider>
+  );
+}
+
+async function echo(chatCtl: ChatController): Promise<void> {
   await chatCtl.addMessage({
     type: 'text',
     content: `Please enter something.`,
@@ -118,7 +138,7 @@ const echo = async (chatCtl: ChatController): Promise<void> => {
   await chatCtl.addMessage({
     type: 'text',
     content: (
-      <>
+      <div>
         {file.files.map((f) => (
           <img
             key={file.files.indexOf(f)}
@@ -127,7 +147,7 @@ const echo = async (chatCtl: ChatController): Promise<void> => {
             style={{ width: '100%', height: 'auto' }}
           />
         ))}
-      </>
+      </div>
     ),
     self: false,
   });
@@ -164,26 +184,4 @@ const echo = async (chatCtl: ChatController): Promise<void> => {
   }
 
   echo(chatCtl);
-};
-
-function App(): React.ReactElement {
-  const classes = useStyles();
-  const [chatCtl] = React.useState(new ChatController());
-
-  React.useMemo(() => {
-    echo(chatCtl);
-  }, [chatCtl]);
-
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div className={classes.root}>
-        <div className={classes.container}>
-          <MuiChat chatController={chatCtl} />
-        </div>
-      </div>
-    </ThemeProvider>
-  );
 }
-
-export default App;
