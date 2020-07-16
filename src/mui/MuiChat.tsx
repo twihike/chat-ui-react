@@ -108,10 +108,20 @@ export function MuiChat({
         {messages.map(
           (msg): React.ReactElement => {
             if (msg.type === 'text' || msg.type === 'jsx') {
-              return <MuiMessage key={messages.indexOf(msg)} message={msg} />;
+              return (
+                <MuiMessage
+                  key={messages.indexOf(msg)}
+                  id={`cu-msg-${messages.indexOf(msg) + 1}`}
+                  message={msg}
+                />
+              );
             }
             return (
-              <MuiMessage key={messages.indexOf(msg)} message={unknownMsg} />
+              <MuiMessage
+                key={messages.indexOf(msg)}
+                id={`cu-msg-${messages.indexOf(msg) + 1}`}
+                message={unknownMsg}
+              />
             );
           },
         )}
