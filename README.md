@@ -226,6 +226,16 @@ This action inputs audio.
 
 Specify `audio` for `type`. You can specify `accept` and `multiple` as attributes of the `input` tag. The return value of the method is an array of files entered by the user. If the voice input fails, the `Reject` rejected `Promise` is returned.
 
+##### Custom
+
+This action uses your custom component as input.
+Specify `custom` for `type`. Specify your component in `Component`.
+
+Custom components follow the React conventions to create input forms as usual.
+It receives `chatController` and `actionRequest` as properties. This is automatically set by chat-ui-react.
+Then, set the input received from the user to the `setActionResponse` method of the `ChatController` class.
+This can be received by the application as the return value of `setActionRequest`.
+
 ## Example
 
 See the `example` directory.

@@ -70,6 +70,12 @@ export interface AudioActionRequest extends ActionRequest {
   response?: AudioActionResponse;
 }
 
+export interface CustomActionRequest extends ActionRequest {
+  type: 'custom';
+  Component: JSX.Element;
+  response?: CustomActionResponse;
+}
+
 export interface ActionResponse {
   type: string;
   value: string;
@@ -104,6 +110,10 @@ export interface FileActionResponse extends ActionResponse {
 export interface AudioActionResponse extends ActionResponse {
   type: 'audio';
   audio?: Blob;
+}
+
+export interface CustomActionResponse extends ActionResponse {
+  type: 'custom';
 }
 
 export interface OnMessagesChanged {

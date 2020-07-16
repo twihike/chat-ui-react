@@ -3,7 +3,9 @@ import React from 'react';
 
 import { ChatController } from '../chat-controller';
 import {
+  ActionRequest,
   AudioActionRequest,
+  CustomActionRequest,
   FileActionRequest,
   MultiSelectActionRequest,
   SelectActionRequest,
@@ -64,12 +66,6 @@ export function MuiChat({
 
   const msgRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
-    function scroll(): void {
-      if (msgRef.current) {
-        msgRef.current.scrollTop = msgRef.current.scrollHeight;
-        // msgRef.current.scrollIntoView(true);
-      }
-    }
     function handleMassagesChanged(): void {
       setMessages([...chatCtl.getMessages()]);
       scroll();
@@ -78,9 +74,27 @@ export function MuiChat({
       setActReq(chatCtl.getActionRequest());
       scroll();
     }
+    function scroll(): void {
+      if (msgRef.current) {
+        msgRef.current.scrollTop = msgRef.current.scrollHeight;
+        // msgRef.current.scrollIntoView(true);
+      }
+    }
     chatCtl.addOnMessagesChanged(handleMassagesChanged);
     chatCtl.addOnActionChanged(handleActionChanged);
   }, [chatCtl]);
+
+  type CustomComponentType = React.FC<{
+    chatController: ChatController;
+    actionRequest: ActionRequest;
+  }>;
+  const CustomComponent = React.useMemo((): CustomComponentType => {
+    if (!actReq || actReq.type !== 'custom') {
+      return (null as unknown) as CustomComponentType;
+    }
+    return ((actReq as CustomActionRequest)
+      .Component as unknown) as CustomComponentType;
+  }, [actReq]);
 
   const unknownMsg = {
     type: 'text',
@@ -131,6 +145,12 @@ export function MuiChat({
           <MuiAudioInput
             chatController={chatCtl}
             actionRequest={actReq as AudioActionRequest}
+          />
+        )}
+        {actReq && actReq.type === 'custom' && (
+          <CustomComponent
+            chatController={chatCtl}
+            actionRequest={actReq as CustomActionRequest}
           />
         )}
       </div>
