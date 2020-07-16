@@ -239,6 +239,50 @@ try {
 }
 ```
 
+##### カスタム
+
+このアクションはあなたのカスタムコンポーネントを利用して入力します。
+`type`に`custom`を指定します。`Component`にあなたのコンポーネントを指定します。
+
+カスタムコンポーネントは、Reactの作法に倣っていつも通り入力フォームを作成します。
+プロパティとして`chatController`と`actionRequest`を受け取ります。これはchat-ui-reactにより自動でセットされます。
+そして、ユーザから受け取った入力を`ChatController`クラスの`setActionResponse`メソッドを使って伝搬します。
+これはアプリケーションが`setActionRequest`の返却値として受け取ることができます。
+
+```typescript
+function GoodInput({
+  chatController,
+  actionRequest,
+}: {
+  chatController: ChatController;
+  actionRequest: ActionRequest;
+}) {
+  const chatCtl = chatController;
+
+  const setResponse = React.useCallback((): void => {
+    const res = { type: 'custom', value: 'Good!' };
+    chatCtl.setActionResponse(actionRequest, res);
+  }, [actionRequest, chatCtl]);
+
+  return (
+    <Button
+      type="button"
+      onClick={setResponse}
+      variant="contained"
+      color="primary"
+    >
+      Good!
+    </Button>
+  );
+}
+
+const custom = await chatCtl.setActionRequest({
+  type: 'custom',
+  Component: GoodInput,
+});
+console.log(custom.value);
+```
+
 ## サンプル
 
 `examples`ディレクトリをご覧ください。
