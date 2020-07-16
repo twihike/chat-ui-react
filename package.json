@@ -1,6 +1,6 @@
 {
   "name": "chat-ui-react",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "React component for conversational UI.",
   "keywords": [
     "chat",
