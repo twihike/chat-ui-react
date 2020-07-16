@@ -4,12 +4,14 @@ import React from 'react';
 import { Message } from '../chat-types';
 
 export function MuiMessage({
+  id,
   message,
 }: {
+  id: string;
   message: Message<unknown>;
 }): React.ReactElement {
   if (message.deletedAt) {
-    return <div />;
+    return <div id={id} />;
   }
 
   const l = message.self ? '20%' : 0;
@@ -21,6 +23,7 @@ export function MuiMessage({
   return (
     <Grow in>
       <Box
+        id={id}
         flex="0 0 auto"
         my={1}
         pl={l}
