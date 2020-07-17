@@ -1,10 +1,12 @@
 import {
+  Button,
   CssBaseline,
   ThemeProvider,
   createMuiTheme,
   makeStyles,
 } from '@material-ui/core';
 import {
+  ActionRequest,
   AudioActionResponse,
   ChatController,
   FileActionResponse,
@@ -183,5 +185,48 @@ async function echo(chatCtl: ChatController): Promise<void> {
     });
   }
 
+  await chatCtl.addMessage({
+    type: 'text',
+    content: `Please press the button.`,
+    self: false,
+  });
+  const good = await chatCtl.setActionRequest({
+    type: 'custom',
+    Component: GoodInput,
+  });
+  await chatCtl.addMessage({
+    type: 'text',
+    content: `You have pressed the ${good.value} button.`,
+    self: false,
+  });
+
   echo(chatCtl);
+}
+
+function GoodInput({
+  chatController,
+  actionRequest,
+}: {
+  chatController: ChatController;
+  actionRequest: ActionRequest;
+}) {
+  const chatCtl = chatController;
+
+  const setResponse = React.useCallback((): void => {
+    const res = { type: 'custom', value: 'Good!' };
+    chatCtl.setActionResponse(actionRequest, res);
+  }, [actionRequest, chatCtl]);
+
+  return (
+    <div>
+      <Button
+        type="button"
+        onClick={setResponse}
+        variant="contained"
+        color="primary"
+      >
+        Good!
+      </Button>
+    </div>
+  );
 }
