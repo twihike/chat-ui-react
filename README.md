@@ -236,6 +236,40 @@ It receives `chatController` and `actionRequest` as properties. This is automati
 Then, set the input received from the user to the `setActionResponse` method of the `ChatController` class.
 This can be received by the application as the return value of `setActionRequest`.
 
+```tsx
+function GoodInput({
+  chatController,
+  actionRequest,
+}: {
+  chatController: ChatController;
+  actionRequest: ActionRequest;
+}) {
+  const chatCtl = chatController;
+
+  const setResponse = React.useCallback((): void => {
+    const res = { type: 'custom', value: 'Good!' };
+    chatCtl.setActionResponse(actionRequest, res);
+  }, [actionRequest, chatCtl]);
+
+  return (
+    <Button
+      type="button"
+      onClick={setResponse}
+      variant="contained"
+      color="primary"
+    >
+      Good!
+    </Button>
+  );
+}
+
+const custom = await chatCtl.setActionRequest({
+  type: 'custom',
+  Component: GoodInput,
+});
+console.log(custom.value);
+```
+
 ## Example
 
 See the `example` directory.
