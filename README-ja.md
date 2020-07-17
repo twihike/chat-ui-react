@@ -249,7 +249,7 @@ try {
 そして、ユーザから受け取った入力を`ChatController`クラスの`setActionResponse`メソッドを使って伝搬します。
 これはアプリケーションが`setActionRequest`の返却値として受け取ることができます。
 
-```typescript
+```tsx
 function GoodInput({
   chatController,
   actionRequest,
