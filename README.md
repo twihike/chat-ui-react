@@ -226,6 +226,17 @@ This action inputs audio.
 
 Specify `audio` for `type`. You can specify `accept` and `multiple` as attributes of the `input` tag. The return value of the method is an array of files entered by the user. If the voice input fails, the `Reject` rejected `Promise` is returned.
 
+```typescript
+try {
+  const response = await chatCtl.setActionRequest({
+    type: 'audio',
+  });
+  console.log(response.audio);
+} catch (e) {
+  console.log(e);
+}
+```
+
 ##### Custom
 
 This action uses your custom component as input.
