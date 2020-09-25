@@ -292,6 +292,6 @@ console.log(custom.value);
 
 ## License
 
-This project is licensed under the terms of the MIT license.
+Copyright (c) 2020 twihike. All rights reserved.
 
-Copyright (c) 2020 twihike.
+This project is licensed under the terms of the MIT license.
