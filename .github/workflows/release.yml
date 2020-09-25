@@ -2,18 +2,23 @@ name: release
 
 on:
   push:
-    tags: [v*]
-  # release:
-  #   types: [created]
+    tags: 
+      - v*
 
 jobs:
   release:
-    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        os:
+          - ubuntu-18.04
+        node-version:
+          - 12.x
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
       - run: yarn install --frozen-lockfile
       - run: yarn build

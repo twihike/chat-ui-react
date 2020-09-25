@@ -2,16 +2,23 @@ name: ci
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   demo-site:
-    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        os:
+          - ubuntu-18.04
+        node-version:
+          - 12.x
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
         working-directory: examples/echo-bot
       - run: yarn build
