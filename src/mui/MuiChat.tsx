@@ -65,6 +65,12 @@ export function MuiChat({
   const [actReq, setActReq] = React.useState(chatCtl.getActionRequest());
 
   const msgRef = React.useRef<HTMLDivElement>(null);
+  const scroll = React.useCallback((): void => {
+    if (msgRef.current) {
+      msgRef.current.scrollTop = msgRef.current.scrollHeight;
+      // msgRef.current.scrollIntoView(true);
+    }
+  }, [msgRef]);
   React.useEffect(() => {
     function handleMassagesChanged(): void {
       setMessages([...chatCtl.getMessages()]);
@@ -74,15 +80,9 @@ export function MuiChat({
       setActReq(chatCtl.getActionRequest());
       scroll();
     }
-    function scroll(): void {
-      if (msgRef.current) {
-        msgRef.current.scrollTop = msgRef.current.scrollHeight;
-        // msgRef.current.scrollIntoView(true);
-      }
-    }
     chatCtl.addOnMessagesChanged(handleMassagesChanged);
     chatCtl.addOnActionChanged(handleActionChanged);
-  }, [chatCtl]);
+  }, [chatCtl, scroll]);
 
   type CustomComponentType = React.FC<{
     chatController: ChatController;
