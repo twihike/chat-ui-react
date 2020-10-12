@@ -14,7 +14,7 @@
     "@types/react": "16.9.49",
     "@types/react-dom": "16.9.8",
     "@typescript-eslint/eslint-plugin": "4.2.0",
-    "chat-ui-react": "0.2.9",
+    "chat-ui-react": "0.2.10",
     "eslint": "7.9.0",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.22.0",

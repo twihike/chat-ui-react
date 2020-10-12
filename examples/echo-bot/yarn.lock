@@ -4732,10 +4732,10 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
-chat-ui-react@0.2.9:
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/chat-ui-react/-/chat-ui-react-0.2.9.tgz#d98baddcd9c9bfa5aaf107db2851fb4b4e9a9d0c"
-  integrity sha512-SRMinhOPiVxIyYizM/kDJqjbdb/BtfpF+cptzxHvsGmeqeuvHkE1u6JXmO4hh3u9YnYgyfQMCNYrjp+Z3AFRVw==
+chat-ui-react@0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/chat-ui-react/-/chat-ui-react-0.2.10.tgz#004479a9d469c5ca1841dbd38ada75cc9865963a"
+  integrity sha512-dWW16YHm25+lpuBEmmsMpeeZX8QQn1B5qXutoZYJyUAQHUWVNuzq31c+ahdi+5xjLJT0376GAN4qDrckDcd9QA==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     "@material-ui/icons" "^4.9.1"
