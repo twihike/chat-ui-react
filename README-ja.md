@@ -119,7 +119,7 @@ await chatCtl.addMessage({
 ```typescript
 const response = await chatCtl.setActionRequest({
   type: 'text',
-  always: true,
+  always: false,
 });
 console.log(response.value);
 ```
@@ -204,7 +204,7 @@ const response = await chatCtl.setActionRequest({
 });
 console.log(response.options);
 // AとBが選択された場合
-// [{ value: 'a', text: 'A' }, { value: 'a', text: 'A' }]
+// [{ value: 'a', text: 'A' }, { value: 'b', text: 'B' }]
 ```
 
 ##### ファイル
