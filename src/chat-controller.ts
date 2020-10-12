@@ -85,6 +85,17 @@ export class ChatController {
     return this.state.messages;
   }
 
+  setMessages(messages: Message<unknown>[]): void {
+    this.clearMessages();
+    this.state.messages = [...messages];
+    this.callOnMessagesChanged();
+  }
+
+  clearMessages(): void {
+    this.state.messages = [];
+    this.callOnMessagesChanged();
+  }
+
   private callOnMessagesChanged(): void {
     this.state.onMessagesChanged.map((h) => h(this.state.messages));
   }
