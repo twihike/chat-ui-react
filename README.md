@@ -117,7 +117,7 @@ The return value of the method is a `Promise` that returns the user input.
 ```typescript
 const response = await chatCtl.setActionRequest({
   type: 'text',
-  always: true,
+  always: false,
 });
 console.log(response.value);
 ```
@@ -202,7 +202,7 @@ const response = await chatCtl.setActionRequest({
 });
 console.log(response.options);
 //  If A and B are selected
-// [{ value: 'a', text: 'A' }, { value: 'a', text: 'A' }]
+// [{ value: 'a', text: 'A' }, { value: 'b', text: 'B' }]
 ```
 
 ##### File
