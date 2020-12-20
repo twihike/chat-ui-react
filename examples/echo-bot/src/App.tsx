@@ -169,21 +169,19 @@ async function echo(chatCtl: ChatController): Promise<void> {
         value: 'Voice input failed.',
       };
     })) as AudioActionResponse;
-  if (audio.audio) {
-    await chatCtl.addMessage({
-      type: 'text',
-      content: (
-        <a href={window.URL.createObjectURL(audio.audio)}>Audio downlaod</a>
-      ),
-      self: false,
-    });
-  } else {
-    await chatCtl.addMessage({
-      type: 'text',
-      content: audio.value,
-      self: false,
-    });
-  }
+  await (audio.audio
+    ? chatCtl.addMessage({
+        type: 'text',
+        content: (
+          <a href={window.URL.createObjectURL(audio.audio)}>Audio downlaod</a>
+        ),
+        self: false,
+      })
+    : chatCtl.addMessage({
+        type: 'text',
+        content: audio.value,
+        self: false,
+      }));
 
   await chatCtl.addMessage({
     type: 'text',
