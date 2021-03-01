@@ -51,7 +51,10 @@ const getBaseConfig = ({ nodeEnv, babelEnv }) => ({
     }),
     // Convert cjs to esm
     commonjs({ include: /node_modules/ }),
-    replace({ 'process.env.NODE_ENV': JSON.stringify(nodeEnv) }),
+    replace({
+      preventAssignment: true,
+      'process.env.NODE_ENV': JSON.stringify(nodeEnv),
+    }),
     license({ format: 'jsdoc' }),
     filesize(),
     sizes(),
