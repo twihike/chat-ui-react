@@ -1,7 +1,11 @@
 import {
   Button,
   CssBaseline,
+  Divider,
+  Link,
+  Theme,
   ThemeProvider,
+  Typography,
   createMuiTheme,
   makeStyles,
 } from '@material-ui/core';
@@ -14,7 +18,7 @@ import {
 } from 'chat-ui-react';
 import React from 'react';
 
-const theme = createMuiTheme({
+const muiTheme = createMuiTheme({
   palette: {
     primary: {
       main: '#007aff',
@@ -22,16 +26,27 @@ const theme = createMuiTheme({
   },
 });
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    height: '100%',
+    minHeight: '100vh',
     backgroundColor: 'gray',
   },
   container: {
-    minHeight: '100vh',
-    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
     maxWidth: '640px',
     marginLeft: 'auto',
     marginRight: 'auto',
+    backgroundColor: theme.palette.background.default,
+  },
+  header: {
+    padding: theme.spacing(1),
+  },
+  chat: {
+    flex: '1 1 0%',
+    minHeight: 0,
   },
 }));
 
@@ -44,11 +59,21 @@ export function App(): React.ReactElement {
   }, [chatCtl]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={muiTheme}>
       <CssBaseline />
       <div className={classes.root}>
         <div className={classes.container}>
-          <MuiChat chatController={chatCtl} />
+          <Typography className={classes.header}>
+            Welcome to{' '}
+            <Link href="https://github.com/twihike/chat-ui-react">
+              chat-ui-react
+            </Link>{' '}
+            demo site.
+          </Typography>
+          <Divider />
+          <div className={classes.chat}>
+            <MuiChat chatController={chatCtl} />
+          </div>
         </div>
       </div>
     </ThemeProvider>
@@ -163,12 +188,10 @@ async function echo(chatCtl: ChatController): Promise<void> {
     .setActionRequest({
       type: 'audio',
     })
-    .catch(() => {
-      return {
-        type: 'audio',
-        value: 'Voice input failed.',
-      };
-    })) as AudioActionResponse;
+    .catch(() => ({
+      type: 'audio',
+      value: 'Voice input failed.',
+    }))) as AudioActionResponse;
   await (audio.audio
     ? chatCtl.addMessage({
         type: 'text',
