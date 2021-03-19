@@ -2,7 +2,7 @@ export interface ChatOption {
   delay?: number;
 }
 
-export interface Message<C> {
+export interface Message<C extends MessageContent> {
   type: string;
   content: C;
   self: boolean;
@@ -11,6 +11,8 @@ export interface Message<C> {
   updatedAt?: Date;
   deletedAt?: Date;
 }
+
+export type MessageContent = string | JSX.Element;
 
 export interface TextMessage extends Message<string> {
   type: 'text';
@@ -117,7 +119,7 @@ export interface CustomActionResponse extends ActionResponse {
 }
 
 export interface OnMessagesChanged {
-  (messages: Message<unknown>[]): void;
+  (messages: Message<MessageContent>[]): void;
 }
 
 export interface OnActionChanged {

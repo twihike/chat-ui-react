@@ -3,6 +3,7 @@ import {
   ActionResponse,
   ChatOption,
   Message,
+  MessageContent,
   OnActionChanged,
   OnActionResponsed,
   OnMessagesChanged,
@@ -10,7 +11,7 @@ import {
 
 interface ChatState {
   option: ChatOption;
-  messages: Message<unknown>[];
+  messages: Message<MessageContent>[];
   action: Action;
   actionHistory: Action[];
   onMessagesChanged: OnMessagesChanged[];
@@ -52,7 +53,7 @@ export class ChatController {
     };
   }
 
-  addMessage<C>(message: Message<C>): Promise<number> {
+  addMessage(message: Message<MessageContent>): Promise<number> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const len = this.state.messages.push(message);
@@ -65,7 +66,7 @@ export class ChatController {
     });
   }
 
-  updateMessage<C>(index: number, message: Message<C>): void {
+  updateMessage(index: number, message: Message<MessageContent>): void {
     if (message !== this.state.messages[index]) {
       const { createdAt } = this.state.messages[index];
       this.state.messages[index] = message;
@@ -81,11 +82,11 @@ export class ChatController {
     this.callOnMessagesChanged();
   }
 
-  getMessages(): Message<unknown>[] {
+  getMessages(): Message<MessageContent>[] {
     return this.state.messages;
   }
 
-  setMessages(messages: Message<unknown>[]): void {
+  setMessages(messages: Message<MessageContent>[]): void {
     this.clearMessages();
     this.state.messages = [...messages];
     this.callOnMessagesChanged();
