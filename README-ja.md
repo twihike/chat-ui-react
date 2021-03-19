@@ -19,7 +19,14 @@ Material-UI以外のコンポーネントを望むなら、オリジナルのコ
 
 ## デモ
 
-[デモサイト](https://chat-ui-react-demo.netlify.app)
+[デモサイト](https://chat-ui-react-demo.netlify.app)をご覧ください。
+
+## サンプル
+
+`examples`ディレクトリをご覧ください。
+
+- echo-bot: ユーザの入力をおうむ返しするチャットボットです。
+- cdn: すぐに始める簡単な方法です。
 
 ## インストール
 
@@ -226,7 +233,7 @@ console.log(response.files);
 
 このアクションは音声を入力します。
 
-`type`に`audio`を指定します。`input`タグの属性として`accept`と `multiple`を指定できます。メソッドの返却値はユーザが入力したファイルの配列です。音声入力に失敗した場合は`reject`された`Promise`を返します。
+`type`に`audio`を指定します。メソッドの返却値はユーザが入力した音声の`Blob`です。音声入力に失敗した場合は`reject`された`Promise`を返します。
 
 ```typescript
 try {
@@ -282,13 +289,6 @@ const custom = await chatCtl.setActionRequest({
 });
 console.log(custom.value);
 ```
-
-## サンプル
-
-`examples`ディレクトリをご覧ください。
-
-- echo-bot: ユーザの入力をおうむ返しするチャットボットです。
-- cdn: すぐに始める簡単な方法です。
 
 ## License
 

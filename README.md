@@ -19,7 +19,14 @@ If you want a component other than Material-UI, you can replace it with the orig
 
 ## Demo
 
-[Demo site](https://chat-ui-react-demo.netlify.app)
+See the [demo site](https://chat-ui-react-demo.netlify.app).
+
+## Example
+
+See the `example` directory.
+
+- echo-bot: A chatbot that echoes user input.
+- cdn: An easy way to get started quickly.
 
 ## Installation
 
@@ -224,7 +231,7 @@ console.log(response.files);
 
 This action inputs audio.
 
-Specify `audio` for `type`. You can specify `accept` and `multiple` as attributes of the `input` tag. The return value of the method is an array of files entered by the user. If the voice input fails, the `Reject` rejected `Promise` is returned.
+Specify `audio` for `type`. The return value of the method is the `Blob` of the audio input by the user. If the audio input fails, the `Reject` rejected `Promise` is returned.
 
 ```typescript
 try {
@@ -280,13 +287,6 @@ const custom = await chatCtl.setActionRequest({
 });
 console.log(custom.value);
 ```
-
-## Example
-
-See the `example` directory.
-
-- echo-bot: A chatbot that echoes user input.
-- cdn: An easy way to get started quickly.
 
 ## License
 
