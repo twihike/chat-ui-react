@@ -162,7 +162,7 @@ async function echo(chatCtl: ChatController): Promise<void> {
     multiple: true,
   })) as FileActionResponse;
   await chatCtl.addMessage({
-    type: 'text',
+    type: 'jsx',
     content: (
       <div>
         {file.files.map((f) => (
@@ -193,7 +193,7 @@ async function echo(chatCtl: ChatController): Promise<void> {
     }))) as AudioActionResponse;
   await (audio.audio
     ? chatCtl.addMessage({
-        type: 'text',
+        type: 'jsx',
         content: (
           <a href={window.URL.createObjectURL(audio.audio)}>Audio downlaod</a>
         ),
