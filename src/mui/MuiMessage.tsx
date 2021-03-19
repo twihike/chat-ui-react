@@ -1,14 +1,14 @@
 import { Box, Grow, Typography } from '@material-ui/core';
 import React from 'react';
 
-import { Message } from '../chat-types';
+import { Message, MessageContent } from '../chat-types';
 
 export function MuiMessage({
   id,
   message,
 }: {
   id: string;
-  message: Message<unknown>;
+  message: Message<MessageContent>;
 }): React.ReactElement {
   if (message.deletedAt) {
     return <div id={id} />;
@@ -40,13 +40,19 @@ export function MuiMessage({
           borderRadius={16}
           boxShadow={2}
         >
-          <Typography
-            variant="body1"
-            style={{ overflowWrap: 'break-word', whiteSpace: 'pre-wrap' }}
-          >
-            {/* eslint-disable-next-line @typescript-eslint/ban-types */}
-            {message.content as object}
-          </Typography>
+          {message.type === 'text' && (
+            <Typography
+              variant="body1"
+              style={{ overflowWrap: 'break-word', whiteSpace: 'pre-wrap' }}
+            >
+              {message.content}
+            </Typography>
+          )}
+          {message.type === 'jsx' && (
+            <div style={{ overflowWrap: 'break-word' }}>
+              {message.content}
+            </div>
+          )}
         </Box>
       </Box>
     </Grow>
