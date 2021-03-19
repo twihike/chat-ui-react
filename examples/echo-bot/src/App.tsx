@@ -29,7 +29,6 @@ const muiTheme = createMuiTheme({
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100%',
-    minHeight: '100vh',
     backgroundColor: 'gray',
   },
   container: {
