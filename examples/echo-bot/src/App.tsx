@@ -51,7 +51,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export function App(): React.ReactElement {
   const classes = useStyles();
-  const [chatCtl] = React.useState(new ChatController());
+  const [chatCtl] = React.useState(
+    new ChatController({
+      showDateTime: false,
+    }),
+  );
 
   React.useMemo(() => {
     echo(chatCtl);
@@ -84,6 +88,7 @@ async function echo(chatCtl: ChatController): Promise<void> {
     type: 'text',
     content: `Please enter something.`,
     self: false,
+    avatar: '-',
   });
   const text = await chatCtl.setActionRequest({
     type: 'text',
@@ -93,12 +98,14 @@ async function echo(chatCtl: ChatController): Promise<void> {
     type: 'text',
     content: `You have entered:\n${text.value}`,
     self: false,
+    avatar: '-',
   });
 
   await chatCtl.addMessage({
     type: 'text',
     content: `What is your gender?`,
     self: false,
+    avatar: '-',
   });
   const sel = await chatCtl.setActionRequest({
     type: 'select',
@@ -121,12 +128,14 @@ async function echo(chatCtl: ChatController): Promise<void> {
     type: 'text',
     content: `You have selected ${sel.value}.`,
     self: false,
+    avatar: '-',
   });
 
   await chatCtl.addMessage({
     type: 'text',
     content: `What is your favorite fruit?`,
     self: false,
+    avatar: '-',
   });
   const mulSel = await chatCtl.setActionRequest({
     type: 'multi-select',
@@ -149,12 +158,14 @@ async function echo(chatCtl: ChatController): Promise<void> {
     type: 'text',
     content: `You have selected '${mulSel.value}'.`,
     self: false,
+    avatar: '-',
   });
 
   await chatCtl.addMessage({
     type: 'text',
     content: `What is your favorite picture?`,
     self: false,
+    avatar: '-',
   });
   const file = (await chatCtl.setActionRequest({
     type: 'file',
@@ -176,12 +187,14 @@ async function echo(chatCtl: ChatController): Promise<void> {
       </div>
     ),
     self: false,
+    avatar: '-',
   });
 
   await chatCtl.addMessage({
     type: 'text',
     content: `Please enter your voice.`,
     self: false,
+    avatar: '-',
   });
   const audio = (await chatCtl
     .setActionRequest({
@@ -190,6 +203,7 @@ async function echo(chatCtl: ChatController): Promise<void> {
     .catch(() => ({
       type: 'audio',
       value: 'Voice input failed.',
+      avatar: '-',
     }))) as AudioActionResponse;
   await (audio.audio
     ? chatCtl.addMessage({
@@ -198,17 +212,20 @@ async function echo(chatCtl: ChatController): Promise<void> {
           <a href={window.URL.createObjectURL(audio.audio)}>Audio downlaod</a>
         ),
         self: false,
+        avatar: '-',
       })
     : chatCtl.addMessage({
         type: 'text',
         content: audio.value,
         self: false,
+        avatar: '-',
       }));
 
   await chatCtl.addMessage({
     type: 'text',
     content: `Please press the button.`,
     self: false,
+    avatar: '-',
   });
   const good = await chatCtl.setActionRequest({
     type: 'custom',
@@ -218,6 +235,7 @@ async function echo(chatCtl: ChatController): Promise<void> {
     type: 'text',
     content: `You have pressed the ${good.value} button.`,
     self: false,
+    avatar: '-',
   });
 
   echo(chatCtl);
