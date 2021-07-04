@@ -8,7 +8,7 @@ import license from 'rollup-plugin-node-license';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import sizes from 'rollup-plugin-sizes';
 import { terser } from 'rollup-plugin-terser';
-import visualizer from 'rollup-plugin-visualizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 import pkg from './package.json';
 
