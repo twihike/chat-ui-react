@@ -90,10 +90,10 @@ export function MuiChat({
   }>;
   const CustomComponent = React.useMemo((): CustomComponentType => {
     if (!actReq || actReq.type !== 'custom') {
-      return (null as unknown) as CustomComponentType;
+      return null as unknown as CustomComponentType;
     }
-    return ((actReq as CustomActionRequest)
-      .Component as unknown) as CustomComponentType;
+    return (actReq as CustomActionRequest)
+      .Component as unknown as CustomComponentType;
   }, [actReq]);
 
   const unknownMsg = {
@@ -105,26 +105,26 @@ export function MuiChat({
   return (
     <div className={classes.container}>
       <div className={classes.messages} ref={msgRef}>
-        {messages.map(
-          (msg): React.ReactElement => {
-            if (msg.type === 'text' || msg.type === 'jsx') {
-              return (
-                <MuiMessage
-                  key={messages.indexOf(msg)}
-                  id={`cu-msg-${messages.indexOf(msg) + 1}`}
-                  message={msg}
-                />
-              );
-            }
+        {messages.map((msg): React.ReactElement => {
+          if (msg.type === 'text' || msg.type === 'jsx') {
             return (
               <MuiMessage
                 key={messages.indexOf(msg)}
                 id={`cu-msg-${messages.indexOf(msg) + 1}`}
-                message={unknownMsg}
+                message={msg}
+                showDateTime={!!chatCtl.getOption().showDateTime}
               />
             );
-          },
-        )}
+          }
+          return (
+            <MuiMessage
+              key={messages.indexOf(msg)}
+              id={`cu-msg-${messages.indexOf(msg) + 1}`}
+              message={unknownMsg}
+              showDateTime={!!chatCtl.getOption().showDateTime}
+            />
+          );
+        })}
       </div>
       <div className={classes.action}>
         {actReq && actReq.type === 'text' && (

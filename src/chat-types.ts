@@ -1,5 +1,6 @@
 export interface ChatOption {
   delay?: number;
+  showDateTime?: boolean;
 }
 
 export interface Message<C extends MessageContent> {
@@ -7,6 +8,7 @@ export interface Message<C extends MessageContent> {
   content: C;
   self: boolean;
   username?: string;
+  avatar?: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;

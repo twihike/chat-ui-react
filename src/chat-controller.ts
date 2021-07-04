@@ -208,4 +208,8 @@ export class ChatController {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     this.state.onActionChanged[idx] = (): void => {};
   }
+
+  getOption(): ChatOption {
+    return this.state.option;
+  }
 }
