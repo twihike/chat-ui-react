@@ -106,7 +106,7 @@ export function MuiChat({
     <div className={classes.container}>
       <div className={classes.messages} ref={msgRef}>
         {messages.map((msg): React.ReactElement => {
-          if (msg.type === 'text' || msg.type === 'jsx') {
+          if (msg.type === 'text' || msg.type === 'jsx' || msg.type === 'text_audio') {
             return (
               <MuiMessage
                 key={messages.indexOf(msg)}

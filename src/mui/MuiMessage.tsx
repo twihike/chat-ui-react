@@ -1,7 +1,16 @@
-import { Avatar, Box, Grow, Typography } from '@material-ui/core';
+import { Avatar, Box, Grow, Typography, Button } from '@material-ui/core';
 import React from 'react';
 
 import { Message, MessageContent } from '../chat-types';
+
+export function AudioMessageButton(props: any): JSX.Element {
+  if (props.component) {
+    return props.component;
+  }
+  return <Button
+  style= {{flex: '1 0 0%', display: 'flex',flexDirection: 'row', border: '0px', color: 'rgb(63, 81, 181)', margin: '0px 0px 5px 10px', height: '20px', width: '20px', boxShadow: '1px 1px 2px rgba(0,0,0,.3)', marginTop:'auto'}}
+  >Sound</Button>
+}
 
 export function MuiMessage({
   id,
@@ -17,6 +26,15 @@ export function MuiMessage({
   }
 
   const dispDate = message.updatedAt ? message.updatedAt : message.createdAt;
+  const component = message.audioButtonComponent;
+  const audioButtonProps = { component };
+
+  const playSoundContent = async () => {
+    if (message.audio) {
+        const sound = new Audio('data:audio/wav;base64,' + message.audio);
+        await sound.play();
+    }
+  };
 
   const ChatAvator = (
     <Box
@@ -81,6 +99,18 @@ export function MuiMessage({
               <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
                 {message.content}
               </Typography>
+            )}
+            {message.type === 'text_audio' && (
+              <div style={{flex: '0 1 0%', display: 'flex', flexDirection: 'row'}}>
+                <Typography
+                  variant="body1"
+                  style={{ overflowWrap: 'break-word', whiteSpace: 'pre-wrap' }}>
+                    {message.content}
+                </Typography>
+                <div onClick={playSoundContent}>
+                  <AudioMessageButton {...audioButtonProps}/>
+                </div>
+              </div>
             )}
             {message.type === 'jsx' && <div>{message.content}</div>}
           </Box>
