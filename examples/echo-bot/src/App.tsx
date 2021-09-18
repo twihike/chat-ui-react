@@ -6,7 +6,7 @@ import {
   Theme,
   ThemeProvider,
   Typography,
-  createMuiTheme,
+  createTheme,
   makeStyles,
 } from '@material-ui/core';
 import {
@@ -18,7 +18,7 @@ import {
 } from 'chat-ui-react';
 import React from 'react';
 
-const muiTheme = createMuiTheme({
+const muiTheme = createTheme({
   palette: {
     primary: {
       main: '#007aff',
