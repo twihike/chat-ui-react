@@ -53,7 +53,7 @@ export function App(): React.ReactElement {
   const classes = useStyles();
   const [chatCtl] = React.useState(
     new ChatController({
-      showDateTime: false,
+      showDateTime: true,
     }),
   );
 

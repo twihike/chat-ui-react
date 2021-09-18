@@ -1,4 +1,5 @@
 import { Theme, makeStyles } from '@material-ui/core';
+import dayjs from 'dayjs';
 import React from 'react';
 
 import { ChatController } from '../chat-controller';
@@ -102,17 +103,39 @@ export function MuiChat({
     self: false,
   };
 
+  let prevDate = dayjs(0);
+  let prevTime = dayjs(0);
+
   return (
     <div className={classes.container}>
       <div className={classes.messages} ref={msgRef}>
         {messages.map((msg): React.ReactElement => {
+          let showDate = false;
+          let showTime = !!chatCtl.getOption().showDateTime;
+          if (!!chatCtl.getOption().showDateTime && !msg.deletedAt) {
+            const current = dayjs(
+              msg.updatedAt ? msg.updatedAt : msg.createdAt,
+            );
+
+            if (current.format('YYYYMMDD') !== prevDate.format('YYYYMMDD')) {
+              showDate = true;
+            }
+            prevDate = current;
+
+            if (current.diff(prevTime) < 60_000) {
+              showTime = false;
+            } else {
+              prevTime = current;
+            }
+          }
           if (msg.type === 'text' || msg.type === 'jsx') {
             return (
               <MuiMessage
                 key={messages.indexOf(msg)}
                 id={`cu-msg-${messages.indexOf(msg) + 1}`}
                 message={msg}
-                showDateTime={!!chatCtl.getOption().showDateTime}
+                showDate={showDate}
+                showTime={showTime}
               />
             );
           }
@@ -121,7 +144,8 @@ export function MuiChat({
               key={messages.indexOf(msg)}
               id={`cu-msg-${messages.indexOf(msg) + 1}`}
               message={unknownMsg}
-              showDateTime={!!chatCtl.getOption().showDateTime}
+              showDate={showDate}
+              showTime={showTime}
             />
           );
         })}

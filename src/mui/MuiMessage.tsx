@@ -6,11 +6,13 @@ import { Message, MessageContent } from '../chat-types';
 export function MuiMessage({
   id,
   message,
-  showDateTime,
+  showDate,
+  showTime,
 }: {
   id: string;
   message: Message<MessageContent>;
-  showDateTime: boolean;
+  showDate: boolean;
+  showTime: boolean;
 }): React.ReactElement {
   if (message.deletedAt) {
     return <div id={id} />;
@@ -54,39 +56,45 @@ export function MuiMessage({
 
   return (
     <Grow in>
-      <Box
-        id={id}
-        maxWidth="100%"
-        flex="0 1 auto"
-        my={1}
-        pl={message.self ? '20%' : 0}
-        pr={message.self ? 0 : '20%'}
-        display="flex"
-        justifyContent={message.self ? 'flex-end' : 'flex-start'}
-        style={{ overflowWrap: 'break-word' }}
-      >
-        {message.avatar && !message.self && ChatAvator}
-        <Box minWidth={0} display="flex" flexDirection="column">
-          {message.username && ChatUsername}
-          <Box
-            maxWidth="100%"
-            py={1}
-            px={2}
-            bgcolor={message.self ? 'primary.main' : 'background.paper'}
-            color={message.self ? 'primary.contrastText' : 'text.primary'}
-            borderRadius={16}
-            boxShadow={2}
-          >
-            {message.type === 'text' && (
-              <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
-                {message.content}
-              </Typography>
-            )}
-            {message.type === 'jsx' && <div>{message.content}</div>}
+      <Box maxWidth="100%" display="flex" flexDirection="column">
+        {showDate && (
+          <Typography align="center">
+            {dispDate?.toLocaleDateString()}
+          </Typography>
+        )}
+        <Box
+          id={id}
+          maxWidth="100%"
+          my={1}
+          pl={message.self ? '20%' : 0}
+          pr={message.self ? 0 : '20%'}
+          display="flex"
+          justifyContent={message.self ? 'flex-end' : 'flex-start'}
+          style={{ overflowWrap: 'break-word' }}
+        >
+          {message.avatar && !message.self && ChatAvator}
+          <Box minWidth={0} display="flex" flexDirection="column">
+            {message.username && ChatUsername}
+            <Box
+              maxWidth="100%"
+              py={1}
+              px={2}
+              bgcolor={message.self ? 'primary.main' : 'background.paper'}
+              color={message.self ? 'primary.contrastText' : 'text.primary'}
+              borderRadius={16}
+              boxShadow={2}
+            >
+              {message.type === 'text' && (
+                <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
+                  {message.content}
+                </Typography>
+              )}
+              {message.type === 'jsx' && <div>{message.content}</div>}
+            </Box>
+            {showTime && ChatDate}
           </Box>
-          {showDateTime && ChatDate}
+          {message.avatar && message.self && ChatAvator}
         </Box>
-        {message.avatar && message.self && ChatAvator}
       </Box>
     </Grow>
   );
