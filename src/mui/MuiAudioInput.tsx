@@ -52,7 +52,7 @@ export function MuiAudioInput({
       await audioRec.startRecord();
       setStopped(false);
     } catch (error) {
-      handleError(error);
+      handleError(error as Error);
     }
   }, [audioRec, handleError]);
 
@@ -62,7 +62,7 @@ export function MuiAudioInput({
       setAudio(a);
       setStopped(true);
     } catch (error) {
-      handleError(error);
+      handleError(error as Error);
     }
   }, [audioRec, handleError]);
 
