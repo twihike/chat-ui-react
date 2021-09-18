@@ -1151,7 +1151,7 @@
     "@babel/helper-plugin-utils" "^7.10.4"
     "@babel/plugin-transform-typescript" "^7.12.1"
 
-"@babel/runtime-corejs3@^7.10.2", "@babel/runtime-corejs3@^7.14.7":
+"@babel/runtime-corejs3@^7.10.2", "@babel/runtime-corejs3@^7.15.4":
   version "7.15.4"
   resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.15.4.tgz#403139af262b9a6e8f9ba04a6fdcebf8de692bf1"
   integrity sha512-lWcAqKeB624/twtTc3w6w/2o9RqJPaNBhPGK6DKLSiwuVWC7WFkypWyNg+CpZoyJH0jVzv1uMtXZ/5/lQOLtCg==
@@ -3449,14 +3449,15 @@ character-reference-invalid@^1.0.0:
   resolved "https://registry.yarnpkg.com/character-reference-invalid/-/character-reference-invalid-1.1.4.tgz#083329cda0eae272ab3dbbf37e9a382c13af1560"
   integrity sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==
 
-chat-ui-react@^0.2.14:
-  version "0.2.14"
-  resolved "https://registry.yarnpkg.com/chat-ui-react/-/chat-ui-react-0.2.14.tgz#5efc74eebfc1d92365c14476db1676de6de524ed"
-  integrity sha512-FvY66fn1mYmnG1ECKgHtefPpITJkImpUtjoQiyIZEnoEMsCWLct8D8mHTo7LuWlOR9CVKRXOqncC9w8+Is2gFA==
+chat-ui-react@^0.2.15:
+  version "0.2.15"
+  resolved "https://registry.yarnpkg.com/chat-ui-react/-/chat-ui-react-0.2.15.tgz#046d5434976b10f0e237a7d233e628997eeb9625"
+  integrity sha512-BV4mt+R4qB3RqsNqpj5mGmIi3Fr1zy9eetNRzdVcibIcuuYl9rpRxOAheAaeKtQUk1Swl1djuCi9vrNI6W404g==
   dependencies:
-    "@babel/runtime-corejs3" "^7.14.7"
+    "@babel/runtime-corejs3" "^7.15.4"
     "@material-ui/icons" "4.9.1"
     audio-recorder-polyfill "^0.4.1"
+    dayjs "^1.10.7"
 
 check-types@^11.1.1:
   version "11.1.2"
@@ -4263,6 +4264,11 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
+
+dayjs@^1.10.7:
+  version "1.10.7"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
+  integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"
