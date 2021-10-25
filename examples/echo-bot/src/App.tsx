@@ -1,14 +1,13 @@
 import {
+  Box,
   Button,
   CssBaseline,
   Divider,
   Link,
-  Theme,
   ThemeProvider,
   Typography,
   createTheme,
-  makeStyles,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   ActionRequest,
   AudioActionResponse,
@@ -26,31 +25,7 @@ const muiTheme = createTheme({
   },
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    height: '100%',
-    backgroundColor: 'gray',
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    maxWidth: '640px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    backgroundColor: theme.palette.background.default,
-  },
-  header: {
-    padding: theme.spacing(1),
-  },
-  chat: {
-    flex: '1 1 0%',
-    minHeight: 0,
-  },
-}));
-
 export function App(): React.ReactElement {
-  const classes = useStyles();
   const [chatCtl] = React.useState(
     new ChatController({
       showDateTime: true,
@@ -64,9 +39,19 @@ export function App(): React.ReactElement {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
-      <div className={classes.root}>
-        <div className={classes.container}>
-          <Typography className={classes.header}>
+      <Box sx={{ height: '100%', backgroundColor: 'gray' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            maxWidth: '640px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            bgcolor: 'background.default',
+          }}
+        >
+          <Typography sx={{ p: 1 }}>
             Welcome to{' '}
             <Link href="https://github.com/twihike/chat-ui-react">
               chat-ui-react
@@ -74,11 +59,11 @@ export function App(): React.ReactElement {
             demo site.
           </Typography>
           <Divider />
-          <div className={classes.chat}>
+          <Box sx={{ flex: '1 1 0%', minHeight: 0 }}>
             <MuiChat chatController={chatCtl} />
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </ThemeProvider>
   );
 }
