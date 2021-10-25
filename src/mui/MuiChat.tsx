@@ -1,4 +1,4 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -20,47 +20,11 @@ import { MuiMultiSelectInput } from './MuiMultiSelectInput';
 import { MuiSelectInput } from './MuiSelectInput';
 import { MuiTextInput } from './MuiTextInput';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    height: '100%',
-    width: '100%',
-    padding: theme.spacing(1),
-    backgroundColor: theme.palette.background.default,
-    display: 'flex',
-    flexDirection: 'column',
-    '& > *': {
-      maxWidth: '100%',
-    },
-    '& > * + *': {
-      marginTop: theme.spacing(1),
-    },
-  },
-  messages: {
-    flex: '1 1 0%',
-    overflowY: 'auto',
-    WebkitOverflowScrolling: 'touch',
-    display: 'flex',
-    flexDirection: 'column',
-    '& > *': {
-      maxWidth: '100%',
-    },
-  },
-  action: {
-    flex: '0 1 auto',
-    display: 'flex',
-    alignContent: 'flex-end',
-    '& > *': {
-      minWidth: 0,
-    },
-  },
-}));
-
 export function MuiChat({
   chatController,
 }: React.PropsWithChildren<{
   chatController: ChatController;
 }>): React.ReactElement {
-  const classes = useStyles();
   const chatCtl = chatController;
   const [messages, setMessages] = React.useState(chatCtl.getMessages());
   const [actReq, setActReq] = React.useState(chatCtl.getActionRequest());
@@ -107,8 +71,35 @@ export function MuiChat({
   let prevTime = dayjs(0);
 
   return (
-    <div className={classes.container}>
-      <div className={classes.messages} ref={msgRef}>
+    <Box
+      sx={{
+        height: '100%',
+        width: '100%',
+        p: 1,
+        bgcolor: 'background.default',
+        display: 'flex',
+        flexDirection: 'column',
+        '& > *': {
+          maxWidth: '100%',
+        },
+        '& > * + *': {
+          mt: 1,
+        },
+      }}
+    >
+      <Box
+        sx={{
+          flex: '1 1 0%',
+          overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          display: 'flex',
+          flexDirection: 'column',
+          '& > *': {
+            maxWidth: '100%',
+          },
+        }}
+        ref={msgRef}
+      >
         {messages.map((msg): React.ReactElement => {
           let showDate = false;
           let showTime = !!chatCtl.getOption().showDateTime;
@@ -149,8 +140,17 @@ export function MuiChat({
             />
           );
         })}
-      </div>
-      <div className={classes.action}>
+      </Box>
+      <Box
+        sx={{
+          flex: '0 1 auto',
+          display: 'flex',
+          alignContent: 'flex-end',
+          '& > *': {
+            minWidth: 0,
+          },
+        }}
+      >
         {actReq && actReq.type === 'text' && (
           <MuiTextInput
             chatController={chatCtl}
@@ -187,7 +187,7 @@ export function MuiChat({
             actionRequest={actReq as CustomActionRequest}
           />
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

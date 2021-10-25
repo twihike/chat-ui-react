@@ -1,48 +1,17 @@
 import {
+  Box,
   Button,
   Divider,
+  Icon,
   List,
   ListItem,
   ListItemIcon,
-  Theme,
   Typography,
-  makeStyles,
-} from '@material-ui/core';
-import {
-  AttachFile as AttachFileIcon,
-  Folder as FolderIcon,
-  Send as SendIcon,
-} from '@material-ui/icons';
+} from '@mui/material';
 import React from 'react';
 
 import { ChatController } from '../chat-controller';
 import { FileActionRequest, FileActionResponse } from '../chat-types';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    flex: '1 1 auto',
-    maxWidth: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    '& > *': {
-      flex: '0 0 auto',
-      maxWidth: '100%',
-    },
-    '& > * + *': {
-      marginTop: theme.spacing(1),
-    },
-  },
-  buttons: {
-    display: 'flex',
-    '& > *': {
-      flex: '1 1 auto',
-      minWidth: 0,
-    },
-    '& > * + *': {
-      marginLeft: theme.spacing(1),
-    },
-  },
-}));
 
 export function MuiFileInput({
   chatController,
@@ -51,7 +20,6 @@ export function MuiFileInput({
   chatController: ChatController;
   actionRequest: FileActionRequest;
 }): React.ReactElement {
-  const classes = useStyles();
   const chatCtl = chatController;
   const [files, setFiles] = React.useState<File[]>([]);
 
@@ -85,14 +53,28 @@ export function MuiFileInput({
     : 'Send';
 
   return (
-    <div className={classes.container}>
+    <Box
+      sx={{
+        flex: '1 1 auto',
+        maxWidth: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        '& > *': {
+          flex: '0 0 auto',
+          maxWidth: '100%',
+        },
+        '& > * + *': {
+          mt: 1,
+        },
+      }}
+    >
       <List>
         {files.map((f) => (
           <div key={`${f.name}-${f.size}`}>
             <Divider />
             <ListItem key={f.name}>
               <ListItemIcon>
-                <AttachFileIcon />
+                <Icon>attach_file</Icon>
               </ListItemIcon>
               <Typography style={{ overflowWrap: 'break-word', minWidth: 0 }}>
                 {f.name}
@@ -102,13 +84,24 @@ export function MuiFileInput({
           </div>
         ))}
       </List>
-      <div className={classes.buttons}>
+      <Box
+        sx={{
+          display: 'flex',
+          '& > *': {
+            flex: '1 1 auto',
+            minWidth: 0,
+          },
+          '& > * + *': {
+            ml: 1,
+          },
+        }}
+      >
         <Button
           disabled={false}
           component="label"
           variant="contained"
           color="primary"
-          startIcon={<FolderIcon />}
+          startIcon={<Icon>folder</Icon>}
         >
           Select file
           <input
@@ -125,11 +118,11 @@ export function MuiFileInput({
           disabled={files.length === 0}
           variant="contained"
           color="primary"
-          startIcon={<SendIcon />}
+          startIcon={<Icon>send</Icon>}
         >
           {sendButtonText}
         </Button>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

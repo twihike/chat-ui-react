@@ -1,23 +1,8 @@
-import { Button, Theme, makeStyles } from '@material-ui/core';
+import { Box, Button } from '@mui/material';
 import React from 'react';
 
 import { ChatController } from '../chat-controller';
 import { SelectActionRequest, SelectActionResponse } from '../chat-types';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    flex: '1 1 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    '& > *': {
-      flex: '0 0 auto',
-      maxWidth: '100%',
-    },
-    '& > * + *': {
-      marginTop: theme.spacing(1),
-    },
-  },
-}));
 
 export function MuiSelectInput({
   chatController,
@@ -26,7 +11,6 @@ export function MuiSelectInput({
   chatController: ChatController;
   actionRequest: SelectActionRequest;
 }): React.ReactElement {
-  const classes = useStyles();
   const chatCtl = chatController;
 
   const setResponse = React.useCallback(
@@ -46,7 +30,20 @@ export function MuiSelectInput({
   );
 
   return (
-    <div className={classes.container}>
+    <Box
+      sx={{
+        flex: '1 1 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        '& > *': {
+          flex: '0 0 auto',
+          maxWidth: '100%',
+        },
+        '& > * + *': {
+          mt: 1,
+        },
+      }}
+    >
       {actionRequest.options.map((o) => (
         <Button
           key={actionRequest.options.indexOf(o)}
@@ -59,6 +56,6 @@ export function MuiSelectInput({
           {o.text}
         </Button>
       ))}
-    </div>
+    </Box>
   );
 }

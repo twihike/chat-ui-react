@@ -1,26 +1,8 @@
-import { Button, TextField, Theme, makeStyles } from '@material-ui/core';
-import { Send as SendIcon } from '@material-ui/icons';
+import { Box, Button, Icon, TextField } from '@mui/material';
 import React from 'react';
 
 import { ChatController } from '../chat-controller';
 import { TextActionRequest, TextActionResponse } from '../chat-types';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    flex: '1 1 auto',
-    display: 'flex',
-    '& > *': {
-      flex: '1 1 auto',
-      minWidth: 0,
-    },
-    '& > * + *': {
-      marginLeft: theme.spacing(1),
-    },
-    '& :last-child': {
-      flex: '0 1 auto',
-    },
-  },
-}));
 
 export function MuiTextInput({
   chatController,
@@ -29,7 +11,6 @@ export function MuiTextInput({
   chatController: ChatController;
   actionRequest: TextActionRequest;
 }): React.ReactElement {
-  const classes = useStyles();
   const chatCtl = chatController;
   const [value, setValue] = React.useState(actionRequest.defaultValue);
 
@@ -60,7 +41,22 @@ export function MuiTextInput({
     : 'Send';
 
   return (
-    <div className={classes.container}>
+    <Box
+      sx={{
+        flex: '1 1 auto',
+        display: 'flex',
+        '& > *': {
+          flex: '1 1 auto',
+          minWidth: 0,
+        },
+        '& > * + *': {
+          ml: 1,
+        },
+        '& :last-child': {
+          flex: '0 1 auto',
+        },
+      }}
+    >
       <TextField
         placeholder={actionRequest.placeholder}
         value={value}
@@ -69,7 +65,7 @@ export function MuiTextInput({
         multiline
         inputProps={{ onKeyDown: handleKeyDown }}
         variant="outlined"
-        rowsMax={10}
+        maxRows={10}
       />
       <Button
         type="button"
@@ -77,10 +73,10 @@ export function MuiTextInput({
         disabled={!value}
         variant="contained"
         color="primary"
-        startIcon={<SendIcon />}
+        startIcon={<Icon>send</Icon>}
       >
         {sendButtonText}
       </Button>
-    </div>
+    </Box>
   );
 }

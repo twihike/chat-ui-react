@@ -1,5 +1,4 @@
-import { Button, Theme, makeStyles } from '@material-ui/core';
-import { Send as SendIcon } from '@material-ui/icons';
+import { Box, Button, Icon } from '@mui/material';
 import React from 'react';
 
 import { ChatController } from '../chat-controller';
@@ -8,21 +7,6 @@ import {
   MultiSelectActionResponse,
 } from '../chat-types';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    flex: '1 1 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    '& > *': {
-      flex: '0 0 auto',
-      maxWidth: '100%',
-    },
-    '& > * + *': {
-      marginTop: theme.spacing(1),
-    },
-  },
-}));
-
 export function MuiMultiSelectInput({
   chatController,
   actionRequest,
@@ -30,13 +14,12 @@ export function MuiMultiSelectInput({
   chatController: ChatController;
   actionRequest: MultiSelectActionRequest;
 }): React.ReactElement {
-  const classes = useStyles();
   const chatCtl = chatController;
   const [values, setValues] = React.useState<string[]>([]);
 
   const handleSelect = React.useCallback(
     (value: string): void => {
-      if (values.find((v) => v === value) === undefined) {
+      if (!values.includes(value)) {
         setValues([...values, value]);
       } else {
         setValues(values.filter((v) => v !== value));
@@ -64,7 +47,20 @@ export function MuiMultiSelectInput({
     : 'Send';
 
   return (
-    <div className={classes.container}>
+    <Box
+      sx={{
+        flex: '1 1 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        '& > *': {
+          flex: '0 0 auto',
+          maxWidth: '100%',
+        },
+        '& > * + *': {
+          mt: 1,
+        },
+      }}
+    >
       {actionRequest.options.map((o) => (
         <Button
           key={actionRequest.options.indexOf(o)}
@@ -83,10 +79,10 @@ export function MuiMultiSelectInput({
         disabled={values.length === 0}
         variant="contained"
         color="primary"
-        startIcon={<SendIcon />}
+        startIcon={<Icon>send</Icon>}
       >
         {sendButtonText}
       </Button>
-    </div>
+    </Box>
   );
 }

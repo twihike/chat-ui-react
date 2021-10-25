@@ -1,4 +1,4 @@
-import { Avatar, Box, Grow, Typography } from '@material-ui/core';
+import { Avatar, Box, Grow, Typography } from '@mui/material';
 import React from 'react';
 
 import { Message, MessageContent } from '../chat-types';
@@ -81,7 +81,7 @@ export function MuiMessage({
               px={2}
               bgcolor={message.self ? 'primary.main' : 'background.paper'}
               color={message.self ? 'primary.contrastText' : 'text.primary'}
-              borderRadius={16}
+              borderRadius={4}
               boxShadow={2}
             >
               {message.type === 'text' && (

@@ -1,25 +1,9 @@
-import { Button, Theme, makeStyles } from '@material-ui/core';
-import { Send as SendIcon, Stop as StopIcon } from '@material-ui/icons';
-import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
+import { Box, Button, Icon } from '@mui/material';
 import React from 'react';
 
 import { AudioMediaRecorder } from '../audio-media-recorder';
 import { ChatController } from '../chat-controller';
 import { AudioActionRequest, AudioActionResponse } from '../chat-types';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    flex: '1 1 auto',
-    display: 'flex',
-    '& > *': {
-      flex: '1 1 auto',
-      minWidth: 0,
-    },
-    '& > * + *': {
-      marginLeft: theme.spacing(1),
-    },
-  },
-}));
 
 export function MuiAudioInput({
   chatController,
@@ -28,7 +12,6 @@ export function MuiAudioInput({
   chatController: ChatController;
   actionRequest: AudioActionRequest;
 }): React.ReactElement {
-  const classes = useStyles();
   const chatCtl = chatController;
   const [audioRec] = React.useState(AudioMediaRecorder.getInstance());
   const [stopped, setStopped] = React.useState(true);
@@ -83,7 +66,19 @@ export function MuiAudioInput({
     : 'Send';
 
   return (
-    <div className={classes.container}>
+    <Box
+      sx={{
+        flex: '1 1 auto',
+        display: 'flex',
+        '& > *': {
+          flex: '1 1 auto',
+          minWidth: 0,
+        },
+        '& > * + *': {
+          ml: 1,
+        },
+      }}
+    >
       {stopped && (
         <Button
           type="button"
@@ -91,7 +86,7 @@ export function MuiAudioInput({
           disabled={!stopped}
           variant="contained"
           color="primary"
-          startIcon={<KeyboardVoiceIcon />}
+          startIcon={<Icon>keyboard_voice</Icon>}
         >
           Rec start
         </Button>
@@ -103,7 +98,7 @@ export function MuiAudioInput({
           disabled={stopped}
           variant="contained"
           color="primary"
-          startIcon={<StopIcon />}
+          startIcon={<Icon>stop</Icon>}
         >
           Rec stop
         </Button>
@@ -114,10 +109,10 @@ export function MuiAudioInput({
         disabled={!audio}
         variant="contained"
         color="primary"
-        startIcon={<SendIcon />}
+        startIcon={<Icon>send</Icon>}
       >
         {sendButtonText}
       </Button>
-    </div>
+    </Box>
   );
 }
