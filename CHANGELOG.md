@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/twihike/chat-ui-react/compare/v0.2.15...v0.3.0) (2021-10-25)
+
 ### [0.2.15](https://github.com/twihike/chat-ui-react/compare/v0.2.14...v0.2.15) (2021-09-18)
 
 ### [0.2.14](https://github.com/twihike/chat-ui-react/compare/v0.2.13...v0.2.14) (2021-07-04)
